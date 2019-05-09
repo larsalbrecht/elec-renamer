@@ -1,0 +1,27 @@
+const MainWindow = require('./src/View/MainWindow')
+const {app, BrowserWindow} = require('electron')
+
+let mainWindow = null
+
+app.on('ready', createWindow)
+
+function createWindow () {
+  this.mainWindow = new MainWindow()
+}
+
+// Verlassen, wenn alle Fenster geschlossen sind.
+app.on('window-all-closed', () => {
+  // Unter macOS ist es üblich, für Apps und ihre Menu Bar
+  // aktiv zu bleiben, bis der Nutzer explizit mit Cmd + Q die App beendet.
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  // Unter macOS ist es üblich ein neues Fenster der App zu erstellen, wenn
+  // das Dock Icon angeklickt wird und keine anderen Fenster offen sind.
+  if (mainWindow === null) {
+    createWindow()
+  }
+})

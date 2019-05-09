@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>elec-renamer</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+<div class="container">
+    <label for="input-pattern">Input Pattern</label>
+    <input type="text" id="input-pattern" placeholder="Input Pattern" value="[n]"/>
+</div>
+
+<div id="file-split" class="container">
+    <div id="file-split-left">
+        <table class="file-list" id="file-list">
+            <thead>
+            <tr>
+                <th>File List</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>No items</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="file-split-right">
+        <table class="file-list" id="file-preview">
+            <thead>
+            <tr>
+                <th>File Preview</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>No items</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <button type="button" id="rename-button">Rename</button>
+    <button type="button" id="clear-button">Clear</button>
+</div>
+
+<script>
+require('./assets/js/app')
+</script>
+
+</body>
+</html>

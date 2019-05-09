@@ -1,0 +1,51 @@
+.container {
+    margin-bottom: 2rem;
+    display: block;
+    width: 100%;
+}
+
+#file-list,
+#file-preview {
+    width: 100%;
+    display: table;
+}
+
+#rename-button {
+    margin: 0 auto;
+    display: block;
+    clear: both;
+}
+
+table {
+    border: 0.2rem solid gray;
+    padding: 0.5rem 0 1rem 0;
+}
+
+table tr {
+    border-bottom: 1px solid black;
+}
+
+#input-pattern {
+    display: inline-block;
+    width: 100%;
+}
+
+#file-split-left {
+    width: 49%;
+    float: left;
+}
+
+#file-split-right {
+    width: 49%;
+    float: right;
+}
+
+
+/** specific **/
+
+table.file-list input {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
