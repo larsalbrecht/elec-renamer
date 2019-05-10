@@ -50,7 +50,6 @@ class BaseInputReplacer {
    */
   getReplacement(input) {
     const regExp = new RegExp(this.getRegularExpressionString(), this.replaceAll ? 'g' : '');
-    console.log(regExp);
     return input.replace(regExp, this.replace);
   }
 
@@ -74,7 +73,7 @@ class BaseInputReplacer {
 
     if (this.after) {
       const quotedAfter = Pattern.quote(this.after);
-      if (this.notBefore) {
+      if (this.notAfter) {
         regExp += '(?!' + quotedAfter + ')';
       } else {
         regExp += '(?=' + quotedAfter + ')';
