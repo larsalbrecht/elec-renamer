@@ -1,4 +1,4 @@
-const Pattern = require('../Regex/Pattern')
+const Pattern = require('../Regex/Pattern');
 
 class BaseInputReplacer {
 
@@ -8,19 +8,19 @@ class BaseInputReplacer {
    * @param replace {String}
    * @param replaceAll {Boolean}
    */
-  constructor (search, replace, replaceAll = false) {
-    this.search = null
-    this.replace = null
-    this.replaceAll = null
+  constructor(search, replace, replaceAll = false) {
+    this.search = null;
+    this.replace = null;
+    this.replaceAll = null;
 
-    this.before = null
-    this.notBefore = null
-    this.after = null
-    this.notAfter = null
+    this.before = null;
+    this.notBefore = null;
+    this.after = null;
+    this.notAfter = null;
 
-    this.search = search
-    this.replace = replace
-    this.replaceAll = replaceAll
+    this.search = search;
+    this.replace = replace;
+    this.replaceAll = replaceAll;
   }
 
   /**
@@ -28,9 +28,9 @@ class BaseInputReplacer {
    * @param before {String}
    * @param not {Boolean}
    */
-  setBefore (before, not = false) {
-    this.before = before
-    this.notBefore = not
+  setBefore(before, not = false) {
+    this.before = before;
+    this.notBefore = not;
   }
 
   /**
@@ -38,9 +38,9 @@ class BaseInputReplacer {
    * @param after {String}
    * @param not {Boolean}
    */
-  setAfter (after, not = false) {
-    this.after = after
-    this.notAfter = not
+  setAfter(after, not = false) {
+    this.after = after;
+    this.notAfter = not;
   }
 
   /**
@@ -48,42 +48,42 @@ class BaseInputReplacer {
    * @param input {String}
    * @returns {String}
    */
-  getReplacement (input) {
-    const regExp = new RegExp(this.getRegularExpressionString(), this.replaceAll ? 'g' : '')
-    console.log(regExp)
-    return input.replace(regExp, this.replace)
+  getReplacement(input) {
+    const regExp = new RegExp(this.getRegularExpressionString(), this.replaceAll ? 'g' : '');
+    console.log(regExp);
+    return input.replace(regExp, this.replace);
   }
 
   /**
    *
    * @returns {string}
    */
-  getRegularExpressionString () {
-    let regExp = ''
+  getRegularExpressionString() {
+    let regExp = '';
 
     if (this.before) {
-      const quotedBefore = Pattern.quote(this.before)
+      const quotedBefore = Pattern.quote(this.before);
       if (this.notBefore) {
-        regExp += '(?<!' + quotedBefore + ')'
+        regExp += '(?<!' + quotedBefore + ')';
       } else {
-        regExp += '(?<=' + quotedBefore + ')'
+        regExp += '(?<=' + quotedBefore + ')';
       }
     }
 
-    regExp += '(' + Pattern.quote(this.search) + ')'
+    regExp += '(' + Pattern.quote(this.search) + ')';
 
     if (this.after) {
-      const quotedAfter = Pattern.quote(this.after)
+      const quotedAfter = Pattern.quote(this.after);
       if (this.notBefore) {
-        regExp += '(?!' + quotedAfter + ')'
+        regExp += '(?!' + quotedAfter + ')';
       } else {
-        regExp += '(?=' + quotedAfter + ')'
+        regExp += '(?=' + quotedAfter + ')';
       }
     }
 
-    return regExp
+    return regExp;
   }
 
 }
 
-module.exports = BaseInputReplacer
+module.exports = BaseInputReplacer;

@@ -1,7 +1,7 @@
-const Replacer = require('./Replacer')
+const Replacer = require('./Replacer');
 
 /**
  *
  * @returns {Replacer}
  */
-module.exports = () => Replacer()
+module.exports = () => Replacer();

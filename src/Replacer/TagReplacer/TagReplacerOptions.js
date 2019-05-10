@@ -1,19 +1,19 @@
-const TagReplacerOption = require('./TagReplacerOption')
+const TagReplacerOption = require('./TagReplacerOption');
 
 class TagReplacerOptions {
 
-  constructor (hasEndTag = false) {
+  constructor(hasEndTag = false) {
     /**
      *
      * @type {TagReplacerOption[]}
      */
-    this.options = []
+    this.options = [];
 
     /**
      *
      * @type {boolean}
      */
-    this.hasEndtag = hasEndTag
+    this.hasEndtag = hasEndTag;
   }
 
   /**
@@ -21,22 +21,22 @@ class TagReplacerOptions {
    * @param option {TagReplacerOption}
    * @returns {TagReplacerOptions}
    */
-  addOption (option) {
-    this.options.push(option)
+  addOption(option) {
+    this.options.push(option);
 
-    return this
+    return this;
   }
 
-  isHasEndtag () {
-    return this.hasEndtag
+  isHasEndtag() {
+    return this.hasEndtag;
   }
 
   /**
    *
    * @returns {TagReplacerOption[]}
    */
-  getOptions () {
-    return this.options
+  getOptions() {
+    return this.options;
   }
 }
 
@@ -77,4 +77,4 @@ module.exports = {
    * @type {number}
    */
   TYPE_BOOL: 5,
-}
+};

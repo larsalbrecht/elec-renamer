@@ -1,17 +1,17 @@
-const BaseTagReplacer = require('./BaseTagReplacer')
-const TagReplacerOptions = require('./TagReplacerOptions')
-const TagReplacerOption = require('./TagReplacerOption')
-const format = require('date-fns').format
+const BaseTagReplacer = require('./BaseTagReplacer');
+const TagReplacerOptions = require('./TagReplacerOptions');
+const TagReplacerOption = require('./TagReplacerOption');
+const format = require('date-fns').format;
 
 class DateTagReplacer extends BaseTagReplacer {
 
-  constructor () {
-    super('d', 'date')
+  constructor() {
+    super('d', 'date');
 
     this.setOptions(
       TagReplacerOptions.new()
         .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_DATE))
-    )
+    );
   }
 
   /**
@@ -23,20 +23,20 @@ class DateTagReplacer extends BaseTagReplacer {
    * @param itemPos {Number}
    * @returns {String}
    */
-  replace (pattern, matcher, fileNameMask, originalFile, itemPos) {
-    const origDatePattern = 'YYYY-MM-DD'
-    const datePattern = matcher.group(2) === null ? origDatePattern : matcher.group(2)
-    let formattedDate = null
+  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
+    const origDatePattern = 'YYYY-MM-DD';
+    const datePattern = matcher.group(2) === null ? origDatePattern : matcher.group(2);
+    let formattedDate = null;
 
     try {
-      formattedDate = format(new Date(), datePattern)
+      formattedDate = format(new Date(), datePattern);
     } catch (error) {
-      console.log(error)
-      formattedDate = format(new Date(), origDatePattern)
+      console.log(error);
+      formattedDate = format(new Date(), origDatePattern);
     }
-    fileNameMask = fileNameMask.replace(pattern, formattedDate)
+    fileNameMask = fileNameMask.replace(pattern, formattedDate);
 
-    return fileNameMask
+    return fileNameMask;
   }
 
 }
@@ -45,4 +45,4 @@ class DateTagReplacer extends BaseTagReplacer {
  *
  * @type {DateTagReplacer}
  */
-module.exports = DateTagReplacer
+module.exports = DateTagReplacer;

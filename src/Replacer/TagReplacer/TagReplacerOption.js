@@ -5,33 +5,33 @@ class TagReplacerOption {
    * @param type {Number}
    * @param modifier {Map<String, Object>}
    */
-  constructor (type, modifier = null) {
+  constructor(type, modifier = null) {
     /**
      * {Number}
      */
-    this.type = type
+    this.type = type;
 
     /**
      * {String, Object}
      */
-    this.modifier = modifier
+    this.modifier = modifier;
   }
 
   /**
    *
    * @returns {Number}
    */
-  getType () {
-    return this.type
+  getType() {
+    return this.type;
   }
 
   /**
    *
    * @returns {Map<String, Object>}
    */
-  getModifier () {
-    return this.modifier
+  getModifier() {
+    return this.modifier;
   }
 }
 
-module.exports = TagReplacerOption
+module.exports = TagReplacerOption;

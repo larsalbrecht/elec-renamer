@@ -6,12 +6,12 @@ module.exports = {
    * @param onDrop {Function}
    */
   bindTo: (htmlElement, onDrop) => {
-    const holder = htmlElement
+    const holder = htmlElement;
 
-    holder.ondragover = () => false
-    holder.ondragleave = () => false
-    holder.ondragend = () => false
+    holder.ondragover = () => false;
+    holder.ondragleave = () => false;
+    holder.ondragend = () => false;
 
-    holder.ondrop = onDrop
+    holder.ondrop = onDrop;
   }
-}
+};
