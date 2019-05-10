@@ -1,7 +1,4 @@
-const TagReplacerOption = require('./TagReplacerOption');
-
 class TagReplacerOptions {
-
   constructor(hasEndTag = false) {
     /**
      *

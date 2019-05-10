@@ -2,7 +2,6 @@ const Pattern = require('../Regex/Pattern');
 const TagReplacerOptions = require('./TagReplacerOptions');
 
 class BaseTagReplacer {
-
   /**
    *
    * @param shortTag {String}
@@ -50,6 +49,8 @@ class BaseTagReplacer {
         .forEach((option) => {
           result += '\\W*(?:,\\W*';
           switch (option.getType()) {
+            default:
+              break;
             case TagReplacerOptions.TYPE_STRING:
               result += '(.*?)';
               break;
@@ -69,12 +70,12 @@ class BaseTagReplacer {
               result += '(';
               if (/* (Boolean) */ option.getModifier()
                 .get('case-sensitive')) {
-                //result += '(?i:'
+                // result += '(?i:'
                 result += '(?:';
               } else {
                 result += '(?:';
               }
-              //noinspection unchecked,JSCheckFunctionSignatures
+              // noinspection unchecked,JSCheckFunctionSignatures
               result += BaseTagReplacer.getQuotedJoinedArray('|', /* (ArrayList < String >) */option.getModifier()
                 .get('list'));
 
@@ -92,7 +93,6 @@ class BaseTagReplacer {
           } else {
             result += ')?';
           }
-
         });
     }
 
@@ -108,7 +108,7 @@ class BaseTagReplacer {
   static getQuotedJoinedArray(divider, /* ArrayList<String>  */list) {
     let result = '';
     const itemList = [...list];
-    for (let i = 0, iMax = itemList.length; i < iMax; i++) {
+    for (let i = 0, iMax = itemList.length; i < iMax; i += 1) {
       if (i > 0) {
         result += divider;
       }
@@ -118,23 +118,22 @@ class BaseTagReplacer {
   }
 
   generatePatternString() {
-    let patternString = null;
-    const patternStart = Pattern.quote(BaseTagReplacer.STRING_START) + '\\W*((?:' +
+    const patternStart = `${Pattern.quote(BaseTagReplacer.STRING_START)}\\W*((?:${
       Pattern.quote(this.shortTag)
-        .toLocaleLowerCase() + '|' +
+        .toLocaleLowerCase()}|${
       Pattern.quote(this.shortTag)
-        .toLocaleUpperCase() + '|' +
+        .toLocaleUpperCase()}|${
       Pattern.quote(this.longTag)
-        .toLocaleLowerCase() + '|' +
+        .toLocaleLowerCase()}|${
       Pattern.quote(this.longTag)
-        .toLocaleUpperCase() + ')){1}';
-    const patternEnd = '\\W*' + Pattern.quote(BaseTagReplacer.STRING_END);
+        .toLocaleUpperCase()})){1}`;
+    const patternEnd = `\\W*${Pattern.quote(BaseTagReplacer.STRING_END)}`;
     const patternOptions = this.generateOptionsPatternString();
 
-    patternString = patternStart + patternOptions + patternEnd;
+    let patternString = patternStart + patternOptions + patternEnd;
 
     if (this.options != null && this.options.isHasEndtag()) {
-      patternString += '(.+?)' + '(?:(?:' + patternStart + patternEnd + ')|(?:$))';
+      patternString += `${'(.+?)(?:(?:'}${patternStart}${patternEnd})|(?:$))`;
     }
 
     return patternString;
@@ -148,12 +147,12 @@ class BaseTagReplacer {
    */
   getRegExp() {
     if (this.pattern == null) {
-      /*Pattern */
+      /* Pattern */
       let result = null;
       try {
         result = new RegExp(this.generatePatternString());
       } catch (error) {
-        throw new Error('Error while generating RegExp: ' + error);
+        throw new Error(`Error while generating RegExp: ${error}`);
       }
       this.pattern = result;
     }
@@ -163,7 +162,7 @@ class BaseTagReplacer {
   /**
    *
    * @param fileNameMask {String}
-   * @param originalFile {File}
+   * @param originalFile {String}
    * @param itemPos {int}
    * @returns {*}
    */
@@ -173,32 +172,27 @@ class BaseTagReplacer {
       throw new Error('RegExp is null!');
     }
 
-    const matches = {
-      groups: []
-    };
+    let newFileName = fileNameMask;
 
     let m;
 
-    while ((m = regExp.exec(fileNameMask)) !== null) {
+    // eslint-disable-next-line
+    while ((m = regExp.exec(newFileName)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       if (m.index === regExp.lastIndex) {
-        regExp.lastIndex++;
+        regExp.lastIndex += 1;
       }
 
-      let customMatch = {
-        group: (index) => [...m][index] !== null && [...m][index] !== undefined ? [...m][index] : null,
-        matches: [...m]
+      const customMatch = {
+        // eslint-disable-next-line
+        group: index => ([...m][index] !== null && [...m][index] !== undefined ? [...m][index] : null),
+        matches: [...m],
       };
 
-      fileNameMask = this.replace(regExp, customMatch, fileNameMask, originalFile, itemPos);
-      // The result can be accessed through the `m`-variable.
-      // m.forEach((match, groupIndex) => {
-      //
-      //   console.log(`Found match, group ${groupIndex}: ${match}`);
-      // });
+      newFileName = this.replace(regExp, customMatch, newFileName, originalFile, itemPos);
     }
 
-    return fileNameMask;
+    return newFileName;
   }
 
   // noinspection JSMethodCanBeStatic
@@ -216,7 +210,6 @@ class BaseTagReplacer {
   replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
     throw new Error('Must be overriden!');
   }
-
 }
 
 BaseTagReplacer.STRING_START = '[';

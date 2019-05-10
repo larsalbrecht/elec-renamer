@@ -6,10 +6,9 @@ const TextSizeTagReplacer = require('./TagReplacer/TextSizeTagReplacer');
 const DateTagReplacer = require('./TagReplacer/DateTagReplacer');
 
 class Replacer {
-
   constructor(inputReplacerList, tagReplacerList) {
-    this.inputReplacerList = inputReplacerList ? inputReplacerList : [];
-    this.tagReplacerList = tagReplacerList ? tagReplacerList : [];
+    this.inputReplacerList = inputReplacerList || [];
+    this.tagReplacerList = tagReplacerList || [];
 
     this.tagReplacerList.push(new NameTagReplacer());
     this.tagReplacerList.push(new FolderTagReplacer());
@@ -26,17 +25,18 @@ class Replacer {
    * @param itemPos {Number}
    */
   async getReplacement(inputPattern, inputItem, itemPos) {
+    let resultPattern = inputPattern;
+
     this.tagReplacerList.forEach((tagReplacer) => {
-      inputPattern = tagReplacer.getReplacement(inputPattern, inputItem, itemPos);
+      resultPattern = tagReplacer.getReplacement(resultPattern, inputItem, itemPos);
     });
 
     this.inputReplacerList.forEach((inputReplacer) => {
-      inputPattern = inputReplacer.getReplacement(inputPattern, inputItem, itemPos);
+      resultPattern = inputReplacer.getReplacement(resultPattern, inputItem, itemPos);
     });
 
-    return inputPattern;
+    return resultPattern;
   }
-
 }
 
 /**
@@ -44,4 +44,3 @@ class Replacer {
  * @returns {Replacer}
  */
 module.exports = () => new Replacer();
-

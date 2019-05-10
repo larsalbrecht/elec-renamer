@@ -1,16 +1,15 @@
+const { format } = require('date-fns');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
-const format = require('date-fns').format;
 
 class DateTagReplacer extends BaseTagReplacer {
-
   constructor() {
     super('d', 'date');
 
     this.setOptions(
       TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_DATE))
+        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_DATE)),
     );
   }
 
@@ -26,6 +25,7 @@ class DateTagReplacer extends BaseTagReplacer {
   replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
     const origDatePattern = 'YYYY-MM-DD';
     const datePattern = matcher.group(2) === null ? origDatePattern : matcher.group(2);
+    let newFileName = fileNameMask;
     let formattedDate = null;
 
     try {
@@ -34,11 +34,10 @@ class DateTagReplacer extends BaseTagReplacer {
       console.log(error);
       formattedDate = format(new Date(), origDatePattern);
     }
-    fileNameMask = fileNameMask.replace(pattern, formattedDate);
+    newFileName = newFileName.replace(pattern, formattedDate);
 
-    return fileNameMask;
+    return newFileName;
   }
-
 }
 
 /**

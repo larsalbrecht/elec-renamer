@@ -1,10 +1,10 @@
+const path = require('path');
 const Pattern = require('../Regex/Pattern');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
 
 class FolderTagReplacer extends BaseTagReplacer {
-
   constructor() {
     super('f', 'folder');
 
@@ -12,7 +12,7 @@ class FolderTagReplacer extends BaseTagReplacer {
       TagReplacerOptions.new()
         .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)) // upper directory
         .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)) // start
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)) // length
+        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)), // length
     );
   }
 
@@ -26,39 +26,30 @@ class FolderTagReplacer extends BaseTagReplacer {
    * @returns {String}
    */
   replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    let folderName = require('path')
-      .basename(originalFile);
-    let replaced = false;
-    let folderIndex = 0;
     let newName = null;
 
-    if (matcher.group(2) == null) {
-      folderIndex = 0;
-    } else {
-      folderIndex = parseInt(matcher.group(2));
-    }
+    const folderIndex = matcher.group(2) === null ? 0 : parseInt(matcher.group(2), 10);
+    const fromLength = matcher.group(3) ? parseInt(matcher.group(3), 10) : null;
+    const toLength = matcher.group(4) ? parseInt(matcher.group(4), 10) : null;
+    const folderName = FolderTagReplacer.getFolderName(originalFile, folderIndex);
 
-    newName = folderName = FolderTagReplacer.getFolderName(originalFile, folderIndex);
-
-    if (matcher.group(4) != null) { // replace [f|<0-9>, <0-9>, <0-9>]
-      if ((parseInt(matcher.group(3)) <= folderName.length)
-        && ((parseInt(matcher.group(3)) + parseInt(matcher.group(4))) <= folderName.length)
-        && (parseInt(matcher.group(3)) < (parseInt(matcher.group(3)) + parseInt(matcher.group(4))))) {
-        newName = folderName.substring(parseInt(matcher.group(3)), parseInt(matcher.group(2)) + parseInt(matcher.group(4)));
+    if (toLength !== null) { // replace [f|<0-9>, <0-9>, <0-9>]
+      if ((fromLength <= folderName.length)
+        && ((fromLength + toLength) <= folderName.length)
+        && (fromLength < (fromLength + toLength))) {
+        newName = folderName.substring(fromLength, folderIndex + toLength);
       }
-    } else if (matcher.group(3) !== null) { // replace [f|<0-9>, <0-9>]
-      if (parseInt(matcher.group(3)) <= folderName.length) {
-        newName = folderName.substring(parseInt(matcher.group(3)));
+    } else if (fromLength !== null) { // replace [f|<0-9>, <0-9>]
+      if (fromLength <= folderName.length) {
+        newName = folderName.substring(fromLength);
       }
     }
-    fileNameMask = fileNameMask.replace(pattern, newName);
-
-    return fileNameMask;
+    return fileNameMask.replace(pattern, newName);
   }
 
   static getFolderName(fileItem, folderIndex) {
-    const path = FolderTagReplacer.getFilepath(fileItem);
-    const pathsArr = path.split(Pattern.quote(require('path').sep));
+    const filePath = FolderTagReplacer.getFilepath(fileItem);
+    const pathsArr = filePath.split(Pattern.quote(path.sep));
     if (folderIndex < (pathsArr.length - 1)) {
       const reversePathsArr = pathsArr.reverse();
       return reversePathsArr[folderIndex];
@@ -67,9 +58,9 @@ class FolderTagReplacer extends BaseTagReplacer {
   }
 
   static getFilepath(file) {
-    const absolutePath = require('path')
-      .resolve(file);
-    return absolutePath.substring(0, absolutePath.lastIndexOf(require('path').sep));
+    const absolutePath = path.resolve(file);
+
+    return absolutePath.substring(0, absolutePath.lastIndexOf(path.sep));
   }
 }
 

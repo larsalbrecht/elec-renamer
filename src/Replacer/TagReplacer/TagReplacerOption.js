@@ -1,5 +1,4 @@
 class TagReplacerOption {
-
   /**
    *
    * @param type {Number}

@@ -1,7 +1,6 @@
 const Pattern = require('../Regex/Pattern');
 
 class BaseInputReplacer {
-
   /**
    *
    * @param search {String}
@@ -63,26 +62,25 @@ class BaseInputReplacer {
     if (this.before) {
       const quotedBefore = Pattern.quote(this.before);
       if (this.notBefore) {
-        regExp += '(?<!' + quotedBefore + ')';
+        regExp += `(?<!${quotedBefore})`;
       } else {
-        regExp += '(?<=' + quotedBefore + ')';
+        regExp += `(?<=${quotedBefore})`;
       }
     }
 
-    regExp += '(' + Pattern.quote(this.search) + ')';
+    regExp += `(${Pattern.quote(this.search)})`;
 
     if (this.after) {
       const quotedAfter = Pattern.quote(this.after);
       if (this.notAfter) {
-        regExp += '(?!' + quotedAfter + ')';
+        regExp += `(?!${quotedAfter})`;
       } else {
-        regExp += '(?=' + quotedAfter + ')';
+        regExp += `(?=${quotedAfter})`;
       }
     }
 
     return regExp;
   }
-
 }
 
 module.exports = BaseInputReplacer;

@@ -13,5 +13,5 @@ module.exports = {
     holder.ondragend = () => false;
 
     holder.ondrop = onDrop;
-  }
+  },
 };

@@ -1,12 +1,11 @@
-const ipc = require('./libs/ipc');
 const dnd = require('./libs/drag-n-drop');
 
-const DOMReady = function (callback) {
+const DOMReady = (callback) => {
+  // eslint-disable-next-line
   document.readyState === 'interactive' || document.readyState === 'complete' ? callback() : document.addEventListener('DOMContentLoaded', callback());
 };
 
 class App {
-
   constructor() {
     this.fileList = [];
   }
@@ -19,7 +18,7 @@ class App {
     if (fileList.length === 0) return;
     this.fileList = [...this.fileList, ...fileList];
 
-    window.ipc.messaging.sendFilesEvent(this.fileList.map((file) => file.path));
+    window.ipc.messaging.sendFilesEvent(this.fileList.map(file => file.path));
   }
 
   /**
@@ -34,9 +33,7 @@ class App {
       const fileList = [...e.dataTransfer.files];
 
       await this.onFilesAdded(fileList);
-      const tableRows = this.fileList.map((file) => {
-        return `<tr><td><input readonly value="${file.name}"/></td></tr>`;
-      });
+      const tableRows = this.fileList.map(file => `<tr><td><input readonly value="${file.name}"/></td></tr>`);
 
       fileSplit.querySelector('table.file-list tbody').innerHTML = tableRows.join('');
 
@@ -54,12 +51,10 @@ class App {
   }
 }
 
+// eslint-disable-next-line
 (function () {
   const app = new App();
   app.initFileDragNDrop()
-    .catch((error) => {console.log(error);});
+    .catch((error) => { console.log(error); });
   app.initClearButton();
-
-})(DOMReady);
-
-
+}(DOMReady));

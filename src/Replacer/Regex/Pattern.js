@@ -1,5 +1,4 @@
 class Pattern {
-
   /**
    *
    * @param text {String}
@@ -8,7 +7,6 @@ class Pattern {
   static quote(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
-
 }
 
 module.exports = Pattern;

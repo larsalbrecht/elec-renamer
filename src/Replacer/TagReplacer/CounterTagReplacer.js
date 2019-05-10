@@ -3,7 +3,6 @@ const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
 
 class CounterTagReplacer extends BaseTagReplacer {
-
   constructor() {
     super('c', 'counter');
 
@@ -11,7 +10,7 @@ class CounterTagReplacer extends BaseTagReplacer {
       TagReplacerOptions.new()
         .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
         .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
+        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)),
     );
   }
 
@@ -25,31 +24,13 @@ class CounterTagReplacer extends BaseTagReplacer {
    * @returns {String}
    */
   replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    let start = 0;
-    let step = 1;
-    let intWidth = 0;
+    const start = matcher.group(2) ? parseInt(matcher.group(2), 10) : 0;
+    const step = matcher.group(3) ? parseInt(matcher.group(3), 10) : 1;
+    const intWidth = matcher.group(4) ? parseInt(matcher.group(4), 10) : 0;
 
-    let fileName = require('path')
-      .basename(originalFile);
-    let replaced = false;
-
-    if (matcher.group(4) != null) { // replace [c, <0-9>, <0-9>, <0-9>]
-      start = (matcher.group(2) != null ? parseInt(matcher.group(2)) : start);
-      step = (matcher.group(3) != null ? parseInt(matcher.group(3)) : step);
-      intWidth = (matcher.group(4) != null ? parseInt(matcher.group(4)) : intWidth);
-    } else if (matcher.group(3) != null) { // replace [c, <0-9>, <0-9>]
-      start = (matcher.group(2) != null ? parseInt(matcher.group(2)) : start);
-      step = (matcher.group(3) != null ? parseInt(matcher.group(3)) : step);
-    } else if (matcher.group(2) != null) { // replace [c, <0-9>]
-      start = (matcher.group(2) != null ? parseInt(matcher.group(2)) : start);
-    }
-
-    fileNameMask = fileNameMask.replace(pattern, ((itemPos * step) + start).toString(10)
+    return fileNameMask.replace(pattern, ((itemPos * step) + start).toString(10)
       .padStart(intWidth, '0'));
-
-    return fileNameMask;
   }
-
 }
 
 /**
