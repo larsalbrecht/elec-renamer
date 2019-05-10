@@ -1,4 +1,5 @@
 const BaseTagReplacer = require('./BaseTagReplacer');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
 
@@ -7,8 +8,8 @@ class TextSizeTagReplacer extends BaseTagReplacer {
     super('ts', 'text-size');
 
     this.setOptions(
-      TagReplacerOptions.new(true)
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_STRINGLIST, new Map([['required', true], ['case-sensitive', false], ['list', ['u', 'l', 'wu', 'wl']]]))),
+      new TagReplacerOptions(true)
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_STRINGLIST, new Map([['required', true], ['case-sensitive', false], ['list', ['u', 'l', 'wu', 'wl']]]))),
     );
   }
 

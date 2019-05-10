@@ -5,7 +5,7 @@ class Pattern {
    * @returns {String}
    */
   static quote(text) {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    return text.replace(/[\\\-.*+?^${}()|[\]]/g, '\\$&');
   }
 }
 

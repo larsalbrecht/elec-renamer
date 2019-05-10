@@ -2,15 +2,16 @@ const path = require('path');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class NameTagReplacer extends BaseTagReplacer {
   constructor() {
     super('n', 'name');
 
     this.setOptions(
-      TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)),
+      new TagReplacerOptions()
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT))
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT)),
     );
   }
 

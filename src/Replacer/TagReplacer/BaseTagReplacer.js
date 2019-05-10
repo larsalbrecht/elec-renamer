@@ -1,5 +1,5 @@
 const Pattern = require('../Regex/Pattern');
-const TagReplacerOptions = require('./TagReplacerOptions');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class BaseTagReplacer {
   /**
@@ -48,25 +48,26 @@ class BaseTagReplacer {
       this.options.getOptions()
         .forEach((option) => {
           result += '\\W*(?:,\\W*';
+          // TODO refactor
           switch (option.getType()) {
             default:
               break;
-            case TagReplacerOptions.TYPE_STRING:
+            case TagReplacerOptionKeys.TYPE_STRING:
               result += '(.*?)';
               break;
-            case TagReplacerOptions.TYPE_INT:
+            case TagReplacerOptionKeys.TYPE_INT:
               result += '([0-9]{1,9})';
               break;
-            case TagReplacerOptions.TYPE_FLOAT:
+            case TagReplacerOptionKeys.TYPE_FLOAT:
               result += '([0-9\\.\\,]+)';
               break;
-            case TagReplacerOptions.TYPE_DATE:
+            case TagReplacerOptionKeys.TYPE_DATE:
               result += '(.+)'; // better regex for this?
               break;
-            case TagReplacerOptions.TYPE_BOOL:
+            case TagReplacerOptionKeys.TYPE_BOOL:
               result += '(true|false)';
               break;
-            case TagReplacerOptions.TYPE_STRINGLIST:
+            case TagReplacerOptionKeys.TYPE_STRINGLIST:
               result += '(';
               if (/* (Boolean) */ option.getModifier()
                 .get('case-sensitive')) {
@@ -132,7 +133,7 @@ class BaseTagReplacer {
 
     let patternString = patternStart + patternOptions + patternEnd;
 
-    if (this.options != null && this.options.isHasEndtag()) {
+    if (this.options != null && this.options.isHasEndTag()) {
       patternString += `${'(.+?)(?:(?:'}${patternStart}${patternEnd})|(?:$))`;
     }
 

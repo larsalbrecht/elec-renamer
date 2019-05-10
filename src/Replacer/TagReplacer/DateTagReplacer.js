@@ -2,14 +2,15 @@ const { format } = require('date-fns');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class DateTagReplacer extends BaseTagReplacer {
   constructor() {
     super('d', 'date');
 
     this.setOptions(
-      TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_DATE)),
+      new TagReplacerOptions()
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_DATE)),
     );
   }
 

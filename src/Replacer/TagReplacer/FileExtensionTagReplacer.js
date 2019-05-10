@@ -2,14 +2,15 @@ const path = require('path');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class FileExtensionTagReplacer extends BaseTagReplacer {
   constructor() {
     super('e', 'extension');
 
     this.setOptions(
-      TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_BOOL)),
+      new TagReplacerOptions()
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_BOOL)),
     );
   }
 

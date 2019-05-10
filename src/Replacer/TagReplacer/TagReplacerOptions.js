@@ -10,7 +10,7 @@ class TagReplacerOptions {
      *
      * @type {boolean}
      */
-    this.hasEndtag = hasEndTag;
+    this.hasEndTag = hasEndTag;
   }
 
   /**
@@ -24,8 +24,8 @@ class TagReplacerOptions {
     return this;
   }
 
-  isHasEndtag() {
-    return this.hasEndtag;
+  isHasEndTag() {
+    return this.hasEndTag;
   }
 
   /**
@@ -37,41 +37,4 @@ class TagReplacerOptions {
   }
 }
 
-module.exports = {
-  new: (hasEndTag = false) => new TagReplacerOptions(hasEndTag),
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_STRING: 0,
-
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_INT: 1,
-
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_FLOAT: 2,
-
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_DATE: 3,
-
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_STRINGLIST: 4,
-
-  /**
-   *
-   * @type {number}
-   */
-  TYPE_BOOL: 5,
-};
+module.exports = TagReplacerOptions;

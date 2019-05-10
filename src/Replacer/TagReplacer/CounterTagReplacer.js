@@ -1,16 +1,17 @@
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class CounterTagReplacer extends BaseTagReplacer {
   constructor() {
     super('c', 'counter');
 
     this.setOptions(
-      TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT))
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)),
+      new TagReplacerOptions()
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT))
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT))
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT)),
     );
   }
 

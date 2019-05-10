@@ -3,16 +3,17 @@ const Pattern = require('../Regex/Pattern');
 const BaseTagReplacer = require('./BaseTagReplacer');
 const TagReplacerOptions = require('./TagReplacerOptions');
 const TagReplacerOption = require('./TagReplacerOption');
+const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class FolderTagReplacer extends BaseTagReplacer {
   constructor() {
     super('f', 'folder');
 
     this.setOptions(
-      TagReplacerOptions.new()
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)) // upper directory
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)) // start
-        .addOption(new TagReplacerOption(TagReplacerOptions.TYPE_INT)), // length
+      new TagReplacerOptions()
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT)) // upper directory
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT)) // start
+        .addOption(new TagReplacerOption(TagReplacerOptionKeys.TYPE_INT)), // length
     );
   }
 
