@@ -1,4 +1,5 @@
 const Pattern = require('../Regex/Pattern');
+const CustomMatch = require('./CustomMatch');
 const TagReplacerOptionKeys = require('./TagReplacerOptionKeys');
 
 class BaseTagReplacer {
@@ -62,7 +63,7 @@ class BaseTagReplacer {
               result += '([0-9\\.\\,]+)';
               break;
             case TagReplacerOptionKeys.TYPE_DATE:
-              result += '(.+)'; // better regex for this?
+              result += '(.+?)'; // better regex for this?
               break;
             case TagReplacerOptionKeys.TYPE_BOOL:
               result += '(true|false)';
@@ -162,53 +163,58 @@ class BaseTagReplacer {
 
   /**
    *
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {int}
    * @returns {*}
    */
-  getReplacement(fileNameMask, originalFile, itemPos) {
+  getReplacement(inputPattern, inputString, itemPos) {
     const regExp = this.getRegExp();
     if (regExp === null) {
       throw new Error('RegExp is null!');
     }
 
-    let newFileName = fileNameMask;
+    let newInputPattern = inputPattern;
 
+    /**
+     * @type {RegExpExecArray}
+     */
     let m;
 
-    // eslint-disable-next-line
-    while ((m = regExp.exec(newFileName)) !== null) {
+    // eslint-disable-next-line no-cond-assign
+    while ((m = regExp.exec(newInputPattern)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       if (m.index === regExp.lastIndex) {
         regExp.lastIndex += 1;
       }
+      // noinspection JSValidateTypes
+      /**
+       *
+       * @type {String[]}
+       */
+      const matchesArr = [...m];
+      const customMatch = new CustomMatch(matchesArr);
 
-      const customMatch = {
-        // eslint-disable-next-line
-        group: index => ([...m][index] !== null && [...m][index] !== undefined ? [...m][index] : null),
-        matches: [...m],
-      };
 
-      newFileName = this.replace(regExp, customMatch, newFileName, originalFile, itemPos);
+      newInputPattern = this.replace(regExp, customMatch, newInputPattern, inputString, itemPos);
     }
 
-    return newFileName;
+    return newInputPattern;
   }
 
   // noinspection JSMethodCanBeStatic
   /**
    * Will be called for each replacement found by pattern.
    *
-   * @param pattern {String}
-   * @param matcher {String}
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param pattern {RegExp}
+   * @param matcher {CustomMatch}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {Number}
    *
    *  @return {String}
    */
-  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
+  replace(pattern, matcher, inputPattern, inputString, itemPos) {
     throw new Error('Must be overriden!');
   }
 }

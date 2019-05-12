@@ -15,15 +15,15 @@ class TextSizeTagReplacer extends BaseTagReplacer {
 
   /**
    *
-   * @param pattern {String}
-   * @param matcher {String}
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param pattern {RegExp}
+   * @param matcher {CustomMatch}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {Number}
    * @returns {String}
    */
-  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    let newFileName = fileNameMask;
+  replace(pattern, matcher, inputPattern, inputString, itemPos) {
+    let newFileName = inputPattern;
     if (matcher.group(3) != null) { // replace [ts, text-size]
       if (matcher.group(2) === 'u') {
         newFileName = newFileName.replace(pattern, matcher.group(3)

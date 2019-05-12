@@ -16,16 +16,16 @@ class FileExtensionTagReplacer extends BaseTagReplacer {
 
   /**
    *
-   * @param pattern {String}
-   * @param matcher {String}
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param pattern {RegExp}
+   * @param matcher {CustomMatch}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {Number}
    * @returns {String}
    */
-  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    let fileExtension = path.extname(originalFile);
-    let newFileName = fileNameMask;
+  replace(pattern, matcher, inputPattern, inputString, itemPos) {
+    let fileExtension = path.extname(inputString);
+    let newFileName = inputPattern;
 
     if (fileExtension !== null && fileExtension !== '' && fileExtension !== '.') {
       if (matcher.group(2) === 'false') { // replace [extension, e]

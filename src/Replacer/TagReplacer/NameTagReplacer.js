@@ -17,16 +17,16 @@ class NameTagReplacer extends BaseTagReplacer {
 
   /**
    *
-   * @param pattern {String}
-   * @param matcher {String}
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param pattern {RegExp}
+   * @param matcher {CustomMatch}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {Number}
    * @returns {String}
    */
-  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    const fileName = path.basename(originalFile);
-    let newFileName = fileNameMask;
+  replace(pattern, matcher, inputPattern, inputString, itemPos) {
+    const fileName = path.basename(inputString);
+    let newFileName = inputPattern;
     let replaced = false;
 
     const fromLength = matcher.group(2) ? parseInt(matcher.group(2), 10) : null;

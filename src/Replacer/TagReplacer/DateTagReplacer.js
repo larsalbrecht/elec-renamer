@@ -16,25 +16,19 @@ class DateTagReplacer extends BaseTagReplacer {
 
   /**
    *
-   * @param pattern {String}
-   * @param matcher {String}
-   * @param fileNameMask {String}
-   * @param originalFile {String}
+   * @param pattern {RegExp}
+   * @param matcher {CustomMatch}
+   * @param inputPattern {String}
+   * @param inputString {String}
    * @param itemPos {Number}
    * @returns {String}
    */
-  replace(pattern, matcher, fileNameMask, originalFile, itemPos) {
-    const origDatePattern = 'YYYY-MM-DD';
-    const datePattern = matcher.group(2) === null ? origDatePattern : matcher.group(2);
-    let newFileName = fileNameMask;
-    let formattedDate = null;
+  replace(pattern, matcher, inputPattern, inputString, itemPos) {
+    const originalDatePattern = 'YYYY-MM-DD';
+    const datePattern = matcher.group(2) === null ? originalDatePattern : matcher.group(2);
+    let newFileName = inputPattern;
+    const formattedDate = format(new Date(), datePattern);
 
-    try {
-      formattedDate = format(new Date(), datePattern);
-    } catch (error) {
-      console.log(error);
-      formattedDate = format(new Date(), origDatePattern);
-    }
     newFileName = newFileName.replace(pattern, formattedDate);
 
     return newFileName;
