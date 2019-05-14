@@ -1,9 +1,7 @@
 const path = require('path');
 
 class AbstractFilter {
-  doFilter(file) {
-
-  }
+  doFilter(file) {}
 
   filter(filesList) {
     return filesList.filter(this.doFilter.bind(this));
