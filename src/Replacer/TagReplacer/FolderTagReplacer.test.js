@@ -19,7 +19,7 @@ describe('FolderTagReplacer', () => {
         .pop());
   });
 
-  it('should replace [f] with x (itemPos=0)', () => {
+  it('should replace [f] with "" (itemPos=0)', () => {
     const folderTagReplacer = new FolderTagReplacer();
 
     const actual = folderTagReplacer.getReplacement('[f]', '/', 0);
@@ -80,7 +80,7 @@ describe('FolderTagReplacer', () => {
         .substring(1, 5));
   });
 
-  it('should replace [f, 0, 1000, 5] with <parent-directory-path> (char 1 to end) (itemPos=0)', () => {
+  it('should replace [f, 0, 1000, 5] with <parent-directory-path> (char 0 to end) (itemPos=0)', () => {
     const folderTagReplacer = new FolderTagReplacer();
 
     const actual = folderTagReplacer.getReplacement('[f, 0, 1000, 5]', __filename, 0);

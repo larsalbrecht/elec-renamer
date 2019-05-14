@@ -9,7 +9,5 @@ describe('dataFilter', () => {
       expect(actual)
         .toEqual(['a.example', 'b.example', 'c.example']);
     });
-
   });
-
 });

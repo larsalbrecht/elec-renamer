@@ -4,4 +4,4 @@ const Replacer = require('./Replacer');
  *
  * @returns {Replacer}
  */
-module.exports = () => Replacer();
+module.exports = () => new Replacer();

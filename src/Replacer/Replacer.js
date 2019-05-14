@@ -6,6 +6,11 @@ const TextSizeTagReplacer = require('./TagReplacer/TextSizeTagReplacer');
 const DateTagReplacer = require('./TagReplacer/DateTagReplacer');
 
 class Replacer {
+  /**
+   *
+   * @param inputReplacerList {BaseInputReplacer}
+   * @param tagReplacerList {BaseTagReplacer}
+   */
   constructor(inputReplacerList, tagReplacerList) {
     this.inputReplacerList = inputReplacerList || [];
     this.tagReplacerList = tagReplacerList || [];
@@ -39,8 +44,4 @@ class Replacer {
   }
 }
 
-/**
- *
- * @returns {Replacer}
- */
-module.exports = () => new Replacer();
+module.exports = Replacer;

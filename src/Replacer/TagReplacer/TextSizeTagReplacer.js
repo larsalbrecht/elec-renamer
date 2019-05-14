@@ -24,26 +24,31 @@ class TextSizeTagReplacer extends BaseTagReplacer {
    */
   replace(pattern, matcher, inputPattern, inputString, itemPos) {
     let newFileName = inputPattern;
-    if (matcher.group(3) != null) { // replace [ts, text-size]
-      if (matcher.group(2) === 'u') {
+    const caseType = matcher.group(2);
+    switch (caseType) {
+      default:
+      case 'u':
         newFileName = newFileName.replace(pattern, matcher.group(3)
           .toUpperCase());
-      } else if (matcher.group(2) === 'l') {
+        break;
+      case 'l':
         newFileName = newFileName.replace(pattern, matcher.group(3)
           .toLowerCase());
-      } else if (matcher.group(2) === 'wu') {
+        break;
+      case 'wu':
         newFileName = newFileName.replace(pattern, matcher.group(3)
           .split(' ')
           .map(word => word.charAt(0)
-            .toUpperCase() + word.slice(1)));
-      } else if (matcher.group(2) === 'wl') {
+            .toUpperCase() + word.slice(1))
+          .join(' '));
+        break;
+      case 'wl':
         newFileName = newFileName.replace(pattern, matcher.group(3)
           .split(' ')
           .map(word => word.charAt(0)
-            .toLowerCase() + word.slice(1)));
-      } else {
-        newFileName = newFileName.replace(pattern, matcher.group(3));
-      }
+            .toLowerCase() + word.slice(1))
+          .join(' '));
+        break;
     }
 
     return newFileName;

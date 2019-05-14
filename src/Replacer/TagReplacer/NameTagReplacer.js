@@ -32,7 +32,7 @@ class NameTagReplacer extends BaseTagReplacer {
     const fromLength = matcher.group(2) ? parseInt(matcher.group(2), 10) : null;
     const toLength = matcher.group(3) ? parseInt(matcher.group(3), 10) : null;
 
-    if (matcher.group(3) != null) { // replace [n, <0-9>, <0-9>]
+    if (toLength) { // replace [n, <0-9>, <0-9>]
       if ((fromLength <= fileName.length)
         && ((fromLength + toLength) <= fileName.length)
         && (fromLength < (fromLength + toLength))) {
@@ -40,7 +40,7 @@ class NameTagReplacer extends BaseTagReplacer {
           fileName.substring(fromLength, fromLength + toLength));
         replaced = true;
       }
-    } else if (matcher.group(2) != null) { // replace [n, <0-9>]
+    } else if (fromLength) { // replace [n, <0-9>]
       if (fromLength <= fileName.length) {
         newFileName = newFileName.replace(pattern, fileName.substring(fromLength));
         replaced = true;
@@ -51,7 +51,7 @@ class NameTagReplacer extends BaseTagReplacer {
     }
 
     if (!replaced) { // replace unfound
-      newFileName = newFileName.replace(pattern, '');
+      newFileName = newFileName.replace(pattern, fileName);
     }
 
     return newFileName;
