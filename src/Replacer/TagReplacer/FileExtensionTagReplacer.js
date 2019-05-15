@@ -27,11 +27,13 @@ class FileExtensionTagReplacer extends BaseTagReplacer {
     let fileExtension = path.extname(inputString);
     let newFileName = inputPattern;
 
-    if (fileExtension !== null && fileExtension !== '' && fileExtension !== '.') {
+    if (typeof fileExtension === 'string' && fileExtension !== '') {
       if (matcher.group(2) === 'false') { // replace [extension, e]
         fileExtension = fileExtension.replace(/^(\.)(.*)/, '$2');
       }
       newFileName = newFileName.replace(pattern, fileExtension);
+    } else {
+      newFileName = '';
     }
 
     return newFileName;

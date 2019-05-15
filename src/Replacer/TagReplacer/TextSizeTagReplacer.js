@@ -25,8 +25,9 @@ class TextSizeTagReplacer extends BaseTagReplacer {
   replace(pattern, matcher, inputPattern, inputString, itemPos) {
     let newFileName = inputPattern;
     const caseType = matcher.group(2);
+    // No default value is needed, as the validation of the values takes place elsewhere.
+    // eslint-disable-next-line
     switch (caseType) {
-      default:
       case 'u':
         newFileName = newFileName.replace(pattern, matcher.group(3)
           .toUpperCase());

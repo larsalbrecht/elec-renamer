@@ -55,5 +55,4 @@ describe('NameTagReplacer', () => {
       .toEqual(__filename.split(path.sep)
         .pop());
   });
-
 });

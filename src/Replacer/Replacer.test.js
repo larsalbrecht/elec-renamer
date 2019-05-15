@@ -16,4 +16,30 @@ describe('Replacer', () => {
     expect(actual)
       .toBeInstanceOf(Promise);
   });
+
+  it('calls getReplacement in custom TagReplacer', () => {
+    const mockReplacer = {
+      getReplacement: jest.fn(() => ''),
+    };
+
+    const replacerSpy = jest.spyOn(mockReplacer, 'getReplacement');
+    const replacer = new Replacer(null, [mockReplacer]);
+    replacer.getReplacement();
+
+    expect(replacerSpy)
+      .toHaveBeenCalledTimes(1);
+  });
+
+  it('calls getReplacement in custom InputReplacer', () => {
+    const mockReplacer = {
+      getReplacement: jest.fn(() => ''),
+    };
+
+    const replacerSpy = jest.spyOn(mockReplacer, 'getReplacement');
+    const replacer = new Replacer([mockReplacer]);
+    replacer.getReplacement();
+
+    expect(replacerSpy)
+      .toHaveBeenCalledTimes(1);
+  });
 });
