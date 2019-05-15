@@ -1,11 +1,11 @@
 const { app } = require('electron');
-const MainWindow = require('./src/View/MainWindow');
+const Window = require('./src/Window');
 
 const mainWindow = null;
 
 function createWindow() {
   // eslint-disable-next-line
-  (new MainWindow());
+  (new Window());
 }
 
 app.on('ready', createWindow);
