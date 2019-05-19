@@ -1,4 +1,4 @@
-module.exports = {
+const dnd = {
   /**
    * Bind ondrop to an element.
    *
@@ -15,3 +15,5 @@ module.exports = {
     holder.ondrop = onDrop;
   },
 };
+
+export default dnd;
