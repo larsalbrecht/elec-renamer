@@ -11,15 +11,20 @@ export default {
 
     return state;
   },
-  // other stuff (TODO must be removed before commit!)
-  addItem(state, payload) {
-    state.items.push(payload);
-
-    return state;
+  addInputReplacer(state, payload) {
+    return { inputReplacerList: [...state.inputReplacerList, payload] };
   },
-  clearItem(state, payload) {
-    state.items.splice(payload.index, 1);
-
-    return state;
+  removeInputReplacer(state, payload) {
+    return { inputReplacerList: state.inputReplacerList.filter((elem, index) => index !== payload) };
+  },
+  updateInputReplacerItem(state, payload) {
+    const newInputReplacerListState = state.inputReplacerList.map((item, index) => {
+      if (payload.index !== index) {
+        return item;
+      }
+      return payload.data;
+    });
+    console.log('New List', newInputReplacerListState);
+    return { inputReplacerList: newInputReplacerListState };
   },
 };

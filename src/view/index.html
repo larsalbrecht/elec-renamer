@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
+
 <main>
     <section id="app">
         <div class="container">
@@ -16,12 +17,17 @@
             <input type="text" id="input-pattern" placeholder="Input Pattern" value=""/>
         </div>
 
+        <!-- Before - Not - Search - Until - Not - Replace With - Replace all -->
+
+        <div class="container">
+            <input-replacer-grid/>
+        </div>
 
         <div class="container">
             <label for="file-extension-filter">File Extension Filter</label>
             <input type="text" id="file-extension-filter" placeholder="File Extension Filter" value=""/>
         </div>
-        
+
         <div id="file-split" class="container">
             <div id="file-split-left">
                 <table class="file-list" id="file-list">
@@ -54,8 +60,8 @@
         </div>
 
         <div class="container">
-            <button type="button" id="rename-button">Rename</button>
             <button type="button" id="clear-button">Clear</button>
+            <button type="button" id="rename-button">Rename</button>
         </div>
     </section>
 </main>

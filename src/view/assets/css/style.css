@@ -1,6 +1,6 @@
 .container {
-    margin-bottom: 2rem;
-    display: block;
+    margin-bottom: 1.5rem;
+    display: inline-block;
     width: 100%;
 }
 
@@ -10,10 +10,17 @@
     display: table;
 }
 
+#clear-button {
+    float: left;
+}
+
 #rename-button {
-    margin: 0 auto;
-    display: block;
-    clear: both;
+    float: right;
+}
+
+#rename-button,
+#clear-button {
+    padding: 0.75rem;
 }
 
 table {
@@ -40,6 +47,36 @@ table tr {
     float: right;
 }
 
+/** input replacer grid
+    8 columns
+    unlimited rows
+    gap of .5rem
+*/
+
+.input-replacer-grid {
+    display: grid;
+    grid-template-columns: 0.5fr 2.5rem 1fr 0.5fr 2.5rem 1fr 5.5rem 3rem;
+    grid-template-rows: repeat(auto-fill, 1.5rem);
+    grid-auto-rows: 1.5rem;
+    grid-gap: 0.5rem;
+}
+
+/* inputs full width */
+.input-replacer-grid input[type="text"] {
+    width: 100%;
+}
+
+/* center all*/
+.input-replacer-grid > div {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+/* headers bold */
+.input-replacer-grid > div:nth-child(-n+8) {
+    font-weight: bold;
+}
 
 /** specific **/
 
@@ -48,4 +85,8 @@ table.file-list input {
     padding: 0;
     margin: 0;
     border: none;
+}
+
+#add-row-button {
+    margin-top: 0.5rem;
 }

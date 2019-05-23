@@ -4,6 +4,7 @@ const CounterTagReplacer = require('./TagReplacer/CounterTagReplacer');
 const FileExtensionTagReplacer = require('./TagReplacer/FileExtensionTagReplacer');
 const TextSizeTagReplacer = require('./TagReplacer/TextSizeTagReplacer');
 const DateTagReplacer = require('./TagReplacer/DateTagReplacer');
+const TextTagReplacer = require('./TagReplacer/TextTagReplacer');
 
 class Replacer {
   /**
@@ -20,6 +21,7 @@ class Replacer {
     this.tagReplacerList.push(new CounterTagReplacer());
     this.tagReplacerList.push(new FileExtensionTagReplacer());
     this.tagReplacerList.push(new TextSizeTagReplacer());
+    this.tagReplacerList.push(new TextTagReplacer());
     this.tagReplacerList.push(new DateTagReplacer());
   }
 

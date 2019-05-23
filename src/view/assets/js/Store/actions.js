@@ -21,11 +21,13 @@ export default {
   setFilePathsPreview(context, payload) {
     context.commit('setFilePathsPreview', payload);
   },
-  // other stuff (TODO must be removed before commit!)
-  addItem(context, payload) {
-    context.commit('addItem', payload);
+  addInputReplacer(context, payload) {
+    context.commit('addInputReplacer', payload);
   },
-  clearItem(context, payload) {
-    context.commit('clearItem', payload);
+  removeInputReplacer(context, payload) {
+    context.commit('removeInputReplacer', payload);
+  },
+  updateInputReplacerItem(context, payload) {
+    context.commit('updateInputReplacerItem', payload);
   },
 };

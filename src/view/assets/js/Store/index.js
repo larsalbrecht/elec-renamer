@@ -7,8 +7,9 @@ import Store from './Store.js';
  *
  * @type {Store}
  */
-export default new Store({
+const store = new Store({
   actions,
   mutations,
   state,
 });
+export default store;

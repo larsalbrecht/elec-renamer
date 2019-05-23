@@ -3,6 +3,7 @@ import ClearButton from './Components/ClearButton.js';
 import RenameButton from './Components/RenameButton.js';
 import FilePathTable from './Components/FilePathTable.js';
 import FilePathPreviewTable from './Components/FilePathPreviewTable.js';
+import InputReplacerList from './Components/InputReplacerList.js';
 
 import store from './Store/index.js';
 import dnd from './libs/drag-n-drop.js';
@@ -31,9 +32,11 @@ const clearButtonInstance = new ClearButton();
 const renameButtonInstance = new RenameButton();
 const filePathTableInstance = new FilePathTable();
 const filePathPreviewTableInstance = new FilePathPreviewTable();
+const inputReplacerListInstance = new InputReplacerList();
 
 inputPatternInputInstance.render();
 clearButtonInstance.render();
 renameButtonInstance.render();
 filePathTableInstance.render();
 filePathPreviewTableInstance.render();
+inputReplacerListInstance.render();

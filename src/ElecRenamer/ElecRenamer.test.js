@@ -35,6 +35,25 @@ describe('ElecRenamer', () => {
     });
   });
 
+  describe('setReplaceList', () => {
+    it('should set new list of texts', () => {
+      const elecRenamer = new ElecRenamer();
+      const setReplaceListSpy = jest.spyOn(elecRenamer, 'setReplaceList');
+
+      const replaceList = ['A', 'B'];
+      elecRenamer.setReplaceList(replaceList);
+
+      expect(setReplaceListSpy)
+        .toHaveBeenCalledTimes(1);
+
+      expect(setReplaceListSpy)
+        .toHaveBeenCalledWith(replaceList);
+
+      expect(elecRenamer.replaceList)
+        .toBe(replaceList);
+    });
+  });
+
   describe('addFilePathList', () => {
     it('should add new list of file paths', () => {
       const elecRenamer = new ElecRenamer();
@@ -149,6 +168,35 @@ describe('ElecRenamer', () => {
 
       expect(actual)
         .toEqual(filePathList.map(filePath => path.basename(filePath)));
+    });
+
+    it('should return preview of data with replaced items when replaceList is set', async () => {
+      const elecRenamer = new ElecRenamer();
+      const replaceList = ['A', 'B'];
+
+      elecRenamer.inputPattern = '[t, $list$]';
+      elecRenamer.filePathList = ['path/to/a.example', 'path/to/b.example'];
+      elecRenamer.setReplaceList(replaceList);
+      const actual = await elecRenamer.generateFileListPreview();
+
+      expect(actual)
+        .toEqual(replaceList);
+    });
+
+    it('should return preview of data with one replaced items when replaceList is set', async () => {
+      const elecRenamer = new ElecRenamer();
+      const replaceList = ['A'];
+
+      elecRenamer.inputPattern = '[t, $list$]';
+      elecRenamer.filePathList = ['path/to/a.example', 'path/to/b.example'];
+      elecRenamer.setReplaceList(replaceList);
+      const actual = await elecRenamer.generateFileListPreview();
+
+      expect(actual[0])
+        .toEqual(replaceList[0]);
+
+      expect(actual[1])
+        .toEqual(elecRenamer.filePathList[1]);
     });
   });
 

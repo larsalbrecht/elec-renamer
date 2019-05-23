@@ -6,6 +6,7 @@ class ElecRenamer {
   constructor() {
     this.inputPattern = '[n]';
     this.filePathList = [];
+    this.replaceList = [];
     this.filePathListPreview = null;
     this.replacer = new Replacer(null, null);
   }
@@ -14,10 +15,18 @@ class ElecRenamer {
     if (typeof this.inputPattern !== 'string') {
       throw new Error('Input Pattern must be set to type String!');
     }
-    const filePathListPreviewPromises = this.filePathList.map((filePath, index) => this.replacer.getReplacement(this.inputPattern, filePath, index)
-      .catch((error) => {
-        throw new Error(`Error while replacing for preview: ${error}`);
-      }));
+    const filePathListPreviewPromises = this.filePathList.map((filePath, index) => {
+      let tempInputPattern = this.inputPattern;
+      if (this.replaceList.length > 0 && this.replaceList.length - 1 >= index) {
+        tempInputPattern = tempInputPattern.replace(/\$list\$/g, `"${this.replaceList[index]}"`);
+      } else {
+        tempInputPattern = tempInputPattern.replace(/\$list\$/g, `"${filePath}"`);
+      }
+      return this.replacer.getReplacement(tempInputPattern, filePath, index)
+        .catch((error) => {
+          throw new Error(`Error while replacing for preview: ${error}`);
+        });
+    });
 
     this.filePathListPreview = await Promise.all(filePathListPreviewPromises);
 
@@ -54,6 +63,14 @@ class ElecRenamer {
    */
   setInputPattern(inputPattern) {
     this.inputPattern = inputPattern;
+  }
+
+  /**
+   *
+   * @param replaceList {Array<String>}
+   */
+  setReplaceList(replaceList) {
+    this.replaceList = replaceList;
   }
 
   async renameFiles() {
