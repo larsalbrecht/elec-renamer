@@ -1,22 +1,18 @@
 import Component from '../libs/Component.js';
-import store from '../Store/index.js';
+import RenamerService from '../Services/RenamerService.js';
 
 class ClearButton extends Component {
   constructor() {
     super({
-      store,
       element: document.getElementById('clear-button'),
     });
 
     this.element.addEventListener('click', () => {
-      store.dispatch('clear');
-      console.log('clear');
+      RenamerService.clear();
     });
   }
 
-  render() {
-
-  }
+  render() {}
 }
 
 export default ClearButton;

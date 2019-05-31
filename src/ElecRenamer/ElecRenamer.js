@@ -4,7 +4,8 @@ const Replacer = require('../Replacer');
 
 class ElecRenamer {
   constructor() {
-    this.inputPattern = '[n]';
+    this.defaultInputPattern = '[n]';
+    this.inputPattern = this.defaultInputPattern;
     this.filePathList = [];
     this.replaceList = [];
     this.filePathListPreview = null;
@@ -85,8 +86,16 @@ class ElecRenamer {
           throw new Error(`Error while renaming files: ${error}`);
         });
 
+      this.inputPattern = this.defaultInputPattern;
+
       return newFullyFilePath;
     });
+  }
+
+  clear() {
+    this.filePathList = [];
+    this.inputPattern = this.defaultInputPattern;
+    this.filePathListPreview = null;
   }
 
   /**
@@ -95,6 +104,14 @@ class ElecRenamer {
    */
   getFilePathList() {
     return this.filePathList;
+  }
+
+  /**
+   *
+   * @returns {String}
+   */
+  getInputPattern() {
+    return this.inputPattern;
   }
 }
 

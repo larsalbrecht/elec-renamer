@@ -1,5 +1,4 @@
 import Component from '../libs/Component.js';
-import store from '../Store/index.js';
 
 const templateInner = document.createElement('InputReplacerItem');
 
@@ -17,7 +16,6 @@ const dataRow = ''
 class InputReplacerItem extends Component {
   constructor(index) {
     super({
-      store,
       element: {},
     });
     this.index = index;

@@ -1,21 +1,28 @@
 import Component from '../libs/Component.js';
-import store from '../Store/index.js';
+import RenamerService from '../Services/RenamerService.js';
 
 class InputPatternInput extends Component {
   constructor() {
     super({
-      store,
       element: document.getElementById('input-pattern'),
     });
 
-    this.element.addEventListener('keyup', () => {
-      store.dispatch('setInputPattern', this.element.value);
+    RenamerService.on('set-input-pattern', (event, inputPattern) => {
+      this.value = inputPattern;
+      this.render();
     });
 
-    this.element.value = '[n]';
+    this.element.addEventListener('keyup', () => {
+      this.value = this.element.value;
+      RenamerService.setInputPattern(this.value);
+    });
+
+    this.value = '[n]';
   }
 
-  render() {}
+  render() {
+    this.element.value = this.value;
+  }
 }
 
 export default InputPatternInput;

@@ -115,6 +115,21 @@ describe('ElecRenamer', () => {
     });
   });
 
+  describe('getInputPattern', () => {
+    it('should return input pattern', () => {
+      const elecRenamer = new ElecRenamer();
+      const setFilePathListSpy = jest.spyOn(elecRenamer, 'getInputPattern');
+
+      const actual = elecRenamer.getInputPattern();
+
+      expect(actual)
+        .toBe(elecRenamer.inputPattern);
+
+      expect(setFilePathListSpy)
+        .toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('generateFileListPreview', () => {
     it('should throw error if input pattern is not type string', async () => {
       const elecRenamer = new ElecRenamer();
