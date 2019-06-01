@@ -10,19 +10,9 @@ const headerRow = ''
   + '<div class="column-search header">Search</div>\n'
   + '<div class="column-after header">After</div>\n'
   + '<div class="column-not-after header">Not</div>\n'
-  + '<div class="column-replacewith header">Replace With</div>\n'
-  + '<div class="column-replaceall header">Replace All</div>\n'
+  + '<div class="column-replace header">Replace With</div>\n'
+  + '<div class="column-replace-all header">Replace All</div>\n'
   + '<div class="column-remove-row header">Remove</div>\n';
-
-// const dataRow = ''
-//   + '<div class="column-before"><input type="text"/></div>\n'
-//   + '<div class="column-not-before"><input type="checkbox"/></div>\n'
-//   + '<div class="column-search"><input type="text"/></div>\n'
-//   + '<div class="column-after"><input type="text"/></div>\n'
-//   + '<div class="column-not-after"><input type="checkbox"/></div>\n'
-//   + '<div class="column-replacewith"><input type="text"/></div>\n'
-//   + '<div class="column-replaceall"><input type="checkbox"/></div>\n'
-//   + '<div class="column-remove-row"><input type="button" value="-"/></div>\n';
 
 class InputReplacerList extends Component {
   constructor() {
@@ -45,7 +35,7 @@ class InputReplacerList extends Component {
         search: null,
         after: null,
         notAfter: null,
-        replaceWith: null,
+        replace: null,
         replaceAll: null,
       };
 

@@ -74,7 +74,7 @@ class Replacer {
       throw new Error(`No index "${index}" exists!`);
     }
 
-    this.inputReplacerList.splice(index, 1);
+    this.inputReplacerList = this.inputReplacerList.filter((item, listIndex) => index !== listIndex);
   }
 
   /**
