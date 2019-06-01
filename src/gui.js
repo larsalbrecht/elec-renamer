@@ -23,8 +23,9 @@ function createWindow() {
 
 function registerProtocol() {
   protocol.registerBufferProtocol('es6', (req, cb) => {
+    const url = req.url.endsWith('.js') ? req.url : req.url += '.js';
     fs.readFile(
-      pathJoin(es6Path, req.url.replace('es6://', '')),
+      pathJoin(es6Path, url.replace('es6://', '')),
       (e, b) => {
         cb({
           mimeType: 'text/javascript',
