@@ -8,18 +8,14 @@ class BaseInputReplacer {
    * @param replaceAll {Boolean}
    */
   constructor(search, replace, replaceAll = false) {
-    this.search = null;
-    this.replace = null;
-    this.replaceAll = null;
+    this.search = search;
+    this.replace = replace;
+    this.replaceAll = replaceAll;
 
     this.before = null;
     this.notBefore = null;
     this.after = null;
     this.notAfter = null;
-
-    this.search = search;
-    this.replace = replace;
-    this.replaceAll = replaceAll;
   }
 
   /**
