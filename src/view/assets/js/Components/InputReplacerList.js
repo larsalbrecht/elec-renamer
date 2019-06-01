@@ -1,15 +1,15 @@
-import Component from '../libs/Component.js';
-import store from '../Store/index.js';
-import InputReplacerItem from './InputReplacerItem.js';
+import Component from '../libs/Component';
+import InputReplacerItem from './InputReplacerItem';
+import RenamerService from '../Services/RenamerService';
 
-const template = document.createElement('inputReplacerList');
+const template = document.createElement('input-replacer-list');
 
 const headerRow = ''
   + '<div class="column-before header">Before</div>\n'
   + '<div class="column-not-before header">Not</div>\n'
   + '<div class="column-search header">Search</div>\n'
-  + '<div class="column-until header">Until</div>\n'
-  + '<div class="column-not-until header">Not</div>\n'
+  + '<div class="column-after header">After</div>\n'
+  + '<div class="column-not-after header">Not</div>\n'
   + '<div class="column-replacewith header">Replace With</div>\n'
   + '<div class="column-replaceall header">Replace All</div>\n'
   + '<div class="column-remove-row header">Remove</div>\n';
@@ -18,8 +18,8 @@ const headerRow = ''
 //   + '<div class="column-before"><input type="text"/></div>\n'
 //   + '<div class="column-not-before"><input type="checkbox"/></div>\n'
 //   + '<div class="column-search"><input type="text"/></div>\n'
-//   + '<div class="column-until"><input type="text"/></div>\n'
-//   + '<div class="column-not-until"><input type="checkbox"/></div>\n'
+//   + '<div class="column-after"><input type="text"/></div>\n'
+//   + '<div class="column-not-after"><input type="checkbox"/></div>\n'
 //   + '<div class="column-replacewith"><input type="text"/></div>\n'
 //   + '<div class="column-replaceall"><input type="checkbox"/></div>\n'
 //   + '<div class="column-remove-row"><input type="button" value="-"/></div>\n';
@@ -27,9 +27,9 @@ const headerRow = ''
 class InputReplacerList extends Component {
   constructor() {
     super({
-      store,
       element: document.querySelector('input-replacer-grid'),
     });
+    this.inputReplacerList = [];
 
     this.grid = document.createElement('div');
     this.grid.classList.add('input-replacer-grid');
@@ -39,16 +39,19 @@ class InputReplacerList extends Component {
     this.addButtonElem.value = '+';
     this.addButtonElem.id = 'add-row-button';
     this.addButtonElem.addEventListener('click', () => {
-      store.dispatch('addInputReplacer', {
-        index: store.state.inputReplacerList.length,
+      const newInputReplacer = {
         before: null,
         notBefore: null,
         search: null,
-        until: null,
-        notUntil: null,
+        after: null,
+        notAfter: null,
         replaceWith: null,
         replaceAll: null,
-      });
+      };
+
+      RenamerService.addInputReplacer(newInputReplacer);
+      this.inputReplacerList.push(newInputReplacer);
+      this.render();
     });
 
     this.noEntriesElem = document.createElement('p');
@@ -59,11 +62,11 @@ class InputReplacerList extends Component {
     const newTemplate = template.cloneNode();
     newTemplate.innerHTML = '';
 
-    if (store.state.inputReplacerList.length === 0) {
+    if (this.inputReplacerList.length === 0) {
       newTemplate.appendChild(this.noEntriesElem);
     } else {
-      const rows = store.state.inputReplacerList.map((inputReplacer, index) => {
-        const item = new InputReplacerItem(index);
+      const rows = this.inputReplacerList.map((inputReplacer, index) => {
+        const item = new InputReplacerItem(this, index, inputReplacer);
         item.render();
         return item;
       });
@@ -80,6 +83,24 @@ class InputReplacerList extends Component {
 
     this.element.replaceWith(newTemplate);
     this.element = newTemplate;
+  }
+
+  /**
+   *
+   * @param index {Number}
+   * @param data {Object}
+   */
+  updateItem(index, data) {
+    this.inputReplacerList[index] = data;
+  }
+
+  /**
+   *
+   * @param index {Number}
+   */
+  removeItem(index) {
+    this.inputReplacerList.splice(index, 1);
+    this.render();
   }
 }
 

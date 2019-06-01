@@ -1,5 +1,5 @@
-import Component from '../libs/Component.js';
-import RenamerService from '../Services/RenamerService.js';
+import Component from '../libs/Component';
+import RenamerService from '../Services/RenamerService';
 
 class ClearButton extends Component {
   constructor() {
@@ -10,10 +10,6 @@ class ClearButton extends Component {
     this.element.addEventListener('click', () => {
       RenamerService.rename();
     });
-  }
-
-  render() {
-
   }
 }
 

@@ -1,4 +1,5 @@
-import Component from '../libs/Component.js';
+import Component from '../libs/Component';
+import RenamerService from '../Services/RenamerService';
 
 const templateInner = document.createElement('InputReplacerItem');
 
@@ -6,18 +7,20 @@ const dataRow = ''
   + '<div class="column-before"><input type="text"/></div>\n'
   + '<div class="column-not-before"><input type="checkbox"/></div>\n'
   + '<div class="column-search"><input type="text"/></div>\n'
-  + '<div class="column-until"><input type="text"/></div>\n'
-  + '<div class="column-not-until"><input type="checkbox"/></div>\n'
-  + '<div class="column-replacewith"><input type="text"/></div>\n'
-  + '<div class="column-replaceall"><input type="checkbox"/></div>\n'
+  + '<div class="column-after"><input type="text"/></div>\n'
+  + '<div class="column-not-after"><input type="checkbox"/></div>\n'
+  + '<div class="column-replace"><input type="text"/></div>\n'
+  + '<div class="column-replace-all"><input type="checkbox"/></div>\n'
   + '<div class="column-remove-row"><input type="button" value="-"/></div>\n';
 
 
 class InputReplacerItem extends Component {
-  constructor(index) {
+  constructor(inputReplacerList, index, inputReplacer) {
     super({
       element: {},
     });
+    this.inputReplacerList = inputReplacerList;
+    this.inputReplacer = inputReplacer;
     this.index = index;
 
     this.templateInner = templateInner.cloneNode();
@@ -25,13 +28,13 @@ class InputReplacerItem extends Component {
     this.templateInner.innerHTML = dataRow;
 
     this.data = {
-      before: store.state.inputReplacerList[this.index].before || '',
-      notBefore: store.state.inputReplacerList[this.index].notBefore || false,
-      search: store.state.inputReplacerList[this.index].search || '',
-      until: store.state.inputReplacerList[this.index].until || '',
-      notUntil: store.state.inputReplacerList[this.index].notUntil || false,
-      replaceWith: store.state.inputReplacerList[this.index].replaceWith || '',
-      replaceAll: store.state.inputReplacerList[this.index].replaceAll || false,
+      before: this.inputReplacer.before || '',
+      notBefore: this.inputReplacer.notBefore || false,
+      search: this.inputReplacer.search || '',
+      after: this.inputReplacer.after || '',
+      notAfter: this.inputReplacer.notAfter || false,
+      replace: this.inputReplacer.replace || '',
+      replaceAll: this.inputReplacer.replaceAll || false,
     };
   }
 
@@ -39,29 +42,54 @@ class InputReplacerItem extends Component {
     this.templateInner.querySelector('.column-before input').value = this.data.before || '';
     this.templateInner.querySelector('.column-not-before input').checked = this.data.notBefore || false;
     this.templateInner.querySelector('.column-search input').value = this.data.search || '';
-    this.templateInner.querySelector('.column-until input').value = this.data.until || '';
-    this.templateInner.querySelector('.column-not-until input').checked = this.data.notUntil || false;
-    this.templateInner.querySelector('.column-replacewith input').value = this.data.replaceWith || '';
-    this.templateInner.querySelector('.column-replaceall input').checked = this.data.replaceAll || false;
+    this.templateInner.querySelector('.column-after input').value = this.data.after || '';
+    this.templateInner.querySelector('.column-not-after input').checked = this.data.notAfter || false;
+    this.templateInner.querySelector('.column-replace input').value = this.data.replace || '';
+    this.templateInner.querySelector('.column-replace-all input').checked = this.data.replaceAll || false;
 
-
-    [...this.templateInner.querySelectorAll('input')].forEach(input => input.addEventListener('change', (event) => {
-      const key = event.target
-        .parentNode
-        .classList
-        .item(0)
-        .substr(7);
-
-      this.data[key] = event.target.value;
-
-      store.dispatch('updateInputReplacerItem', {
-        index: this.index,
-        data: this.data,
+    this.templateInner.querySelector('.column-remove-row')
+      .addEventListener('click', () => {
+        this.inputReplacerList.removeItem(this.index);
+        RenamerService.removeInputReplacer(this.index);
       });
-    }));
 
-    console.log('Index', this.index);
-    console.log('List', store.state.inputReplacerList);
+    [...this.templateInner.querySelectorAll('input')].forEach((input) => {
+      const onChange = (event) => {
+        // get key from css-classname and swap to camelCase (from kebab-case)
+        const key = InputReplacerItem.getKeyFromTarget(event.target);
+
+        let { value } = event.target;
+
+        // if checkbox, use "checked" instead of "value"
+        if (event.target instanceof HTMLInputElement && event.target.type === 'checkbox') {
+          value = event.target.checked;
+        }
+
+        this.data[key] = value;
+        this.inputReplacerList.updateItem(this.index, this.data);
+        RenamerService.updateInputReplacer(this.index, this.data);
+      };
+
+      if (input.type === 'checkbox') {
+        input.addEventListener('change', onChange);
+      } else {
+        input.addEventListener('keyup', onChange);
+      }
+    });
+  }
+
+  /**
+   *
+   * @param eventTarget {HTMLElement}
+   * @returns {string}
+   */
+  static getKeyFromTarget(eventTarget) {
+    return eventTarget
+      .parentNode
+      .classList
+      .item(0)
+      .substr(7)
+      .replace(/-([a-z])/g, g => g[1].toUpperCase());
   }
 
   getNodes() {

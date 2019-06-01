@@ -306,7 +306,7 @@ describe('BaseTagReplacer', () => {
   describe('getReplacement', () => {
     it('should throw an error when getRegExp throw an error', () => {
       const baseTagReplacer = new BaseTagReplacer();
-
+      baseTagReplacer.generatePatternString = jest.fn(() => { throw new Error('RegExp could not be generated: '); });
       expect(() => {
         baseTagReplacer.getReplacement();
       })

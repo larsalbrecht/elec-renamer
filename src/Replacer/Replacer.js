@@ -9,10 +9,10 @@ const TextTagReplacer = require('./TagReplacer/TextTagReplacer');
 class Replacer {
   /**
    *
-   * @param inputReplacerList {BaseInputReplacer}
-   * @param tagReplacerList {BaseTagReplacer}
+   * @param inputReplacerList {BaseInputReplacer[]}
+   * @param tagReplacerList {BaseTagReplacer[]}
    */
-  constructor(inputReplacerList, tagReplacerList) {
+  constructor(inputReplacerList = [], tagReplacerList = []) {
     this.inputReplacerList = inputReplacerList || [];
     this.tagReplacerList = tagReplacerList || [];
 
@@ -39,10 +39,53 @@ class Replacer {
     });
 
     this.inputReplacerList.forEach((inputReplacer) => {
-      resultPattern = inputReplacer.getReplacement(resultPattern, inputItem, itemPos);
+      resultPattern = inputReplacer.getReplacement(resultPattern);
     });
 
     return resultPattern;
+  }
+
+  /**
+   *
+   * @param inputReplacer {Object}
+   */
+  addInputReplacer(inputReplacer) {
+    this.inputReplacerList.push(inputReplacer);
+  }
+
+  /**
+   *
+   * @param index {Number}
+   * @param inputReplacer {BaseInputReplacer}
+   */
+  setInputReplacer(index, inputReplacer) {
+    if (!this.inputReplacerIndexExists(index)) {
+      throw new Error(`No index "${index}" exists!`);
+    }
+    this.inputReplacerList[index] = inputReplacer;
+  }
+
+  /**
+   *
+   * @param index {Number}
+   */
+  removeInputReplacer(index) {
+    if (!this.inputReplacerIndexExists(index)) {
+      throw new Error(`No index "${index}" exists!`);
+    }
+
+    this.inputReplacerList.splice(index, 1);
+  }
+
+  /**
+   *
+   * @param index {Number}
+   * @returns {boolean}
+   */
+  inputReplacerIndexExists(index) {
+    if (this.inputReplacerList.length === 0) return false;
+    if (index < 0) return false;
+    return index <= this.inputReplacerList.length - 1;
   }
 }
 

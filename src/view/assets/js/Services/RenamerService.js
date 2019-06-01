@@ -1,4 +1,4 @@
-import Ipc from '../libs/Ipc.js';
+import Ipc from '../libs/Ipc';
 
 const ipc = new Ipc();
 
@@ -27,6 +27,14 @@ class RenamerService {
     ipc.send('set-file-extension-filter', fileExtensionFilter);
   }
 
+  /**
+   *
+   * @param inputReplacer
+   */
+  static addInputReplacer(inputReplacer) {
+    ipc.send('add-input-replacer', inputReplacer);
+  }
+
   static rename() {
     ipc.send('rename');
   }
@@ -37,6 +45,17 @@ class RenamerService {
 
   static on(name, func) {
     ipc.on(name, func);
+  }
+
+  static updateInputReplacer(index, updatedInputReplacer) {
+    ipc.send('update-input-replacer', {
+      index,
+      inputReplacer: updatedInputReplacer,
+    });
+  }
+
+  static removeInputReplacer(index) {
+    ipc.send('remove-input-replacer', index);
   }
 }
 

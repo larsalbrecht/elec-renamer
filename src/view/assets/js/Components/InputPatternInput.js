@@ -1,5 +1,5 @@
-import Component from '../libs/Component.js';
-import RenamerService from '../Services/RenamerService.js';
+import Component from '../libs/Component';
+import RenamerService from '../Services/RenamerService';
 
 class InputPatternInput extends Component {
   constructor() {

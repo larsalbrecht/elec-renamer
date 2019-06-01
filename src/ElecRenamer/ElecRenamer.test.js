@@ -149,7 +149,9 @@ describe('ElecRenamer', () => {
 
       const filePathList = ['/path/to/a.example', '/path/to/b.example'];
       elecRenamer.setFilePathList(filePathList);
-      elecRenamer.replacer.inputReplacerList = [{}];
+      elecRenamer.replacer.inputReplacerList = [{
+        getReplacement: jest.fn(() => Promise.reject()),
+      }];
 
       await expect(elecRenamer.generateFileListPreview())
         .rejects
@@ -268,6 +270,121 @@ describe('ElecRenamer', () => {
       await expect(elecRenamer.renameFiles())
         .rejects
         .toThrow(/Error while renaming files: Error/);
+    });
+  });
+
+  describe('clear', () => {
+    it('should set filePathList to empty list', () => {
+      const elecRenamer = new ElecRenamer();
+      elecRenamer.filePathList = ['', '', ''];
+
+      elecRenamer.clear();
+
+      expect(elecRenamer.filePathList)
+        .toEqual([]);
+    });
+
+    it('should set inputPattern to default one', () => {
+      const elecRenamer = new ElecRenamer();
+      elecRenamer.inputPattern = '';
+
+      elecRenamer.clear();
+
+      expect(elecRenamer.inputPattern)
+        .toBe(elecRenamer.defaultInputPattern);
+    });
+
+    it('should set filePathListPreview to null', () => {
+      const elecRenamer = new ElecRenamer();
+      elecRenamer.filePathListPreview = [''];
+
+      elecRenamer.clear();
+
+      expect(elecRenamer.filePathListPreview)
+        .toBeNull();
+    });
+  });
+
+  describe('addInputReplacer', () => {
+    it('should add an inputReplacer from data to replacer', () => {
+      const addInputReplacerData = {
+        before: 'before',
+        notBefore: true,
+        search: 'search',
+        after: 'after',
+        notAfter: true,
+        replace: 'replace',
+        replaceAll: true,
+      };
+      const elecRenamer = new ElecRenamer();
+
+      elecRenamer.addInputReplacer(addInputReplacerData);
+
+      expect(elecRenamer.replacer.inputReplacerList[0])
+        .toEqual(addInputReplacerData);
+    });
+  });
+
+  describe('updateInputReplacer', () => {
+    it('should set an inputReplacer from data to replacer', () => {
+      const addInputReplacerDataBefore = {
+        before: 'before',
+        notBefore: true,
+        search: 'search',
+        after: 'after',
+        notAfter: true,
+        replace: 'replace',
+        replaceAll: true,
+      };
+
+      const addInputReplacerDataAfter = {
+        before: 'BEFORE',
+        notBefore: false,
+        search: 'SEARCH',
+        after: 'AFTER',
+        notAfter: false,
+        replace: 'REPLACE',
+        replaceAll: false,
+      };
+
+
+      const elecRenamer = new ElecRenamer();
+
+      elecRenamer.addInputReplacer(addInputReplacerDataBefore);
+
+      expect(elecRenamer.replacer.inputReplacerList[0])
+        .toEqual(addInputReplacerDataBefore);
+
+      elecRenamer.updateInputReplacer(0, addInputReplacerDataAfter);
+
+      expect(elecRenamer.replacer.inputReplacerList[0])
+        .toEqual(addInputReplacerDataAfter);
+    });
+  });
+
+  describe('removeInputReplacer', () => {
+    it('should remove an inputReplacer from data of replacer', () => {
+      const addInputReplacerData = {
+        before: 'before',
+        notBefore: true,
+        search: 'search',
+        after: 'after',
+        notAfter: true,
+        replace: 'replace',
+        replaceAll: true,
+      };
+
+      const elecRenamer = new ElecRenamer();
+
+      elecRenamer.addInputReplacer(addInputReplacerData);
+
+      expect(elecRenamer.replacer.inputReplacerList[0])
+        .toEqual(addInputReplacerData);
+
+      elecRenamer.removeInputReplacer(0);
+
+      expect(elecRenamer.replacer.inputReplacerList)
+        .toHaveLength(0);
     });
   });
 });

@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const Replacer = require('../Replacer');
+const BaseInputReplace = require('../Replacer/InputReplacer/BaseInputReplacer');
 
 class ElecRenamer {
   constructor() {
@@ -9,7 +10,7 @@ class ElecRenamer {
     this.filePathList = [];
     this.replaceList = [];
     this.filePathListPreview = null;
-    this.replacer = new Replacer(null, null);
+    this.replacer = new Replacer();
   }
 
   async generateFileListPreview() {
@@ -112,6 +113,28 @@ class ElecRenamer {
    */
   getInputPattern() {
     return this.inputPattern;
+  }
+
+  /**
+   *
+   * @param newInputReplacer {Object}
+   */
+  addInputReplacer(newInputReplacer) {
+    const inputReplacer = BaseInputReplace.fromData(newInputReplacer);
+    this.replacer.addInputReplacer(inputReplacer);
+  }
+
+  updateInputReplacer(index, updatedInputReplacer) {
+    const inputReplacer = BaseInputReplace.fromData(updatedInputReplacer);
+    this.replacer.setInputReplacer(index, inputReplacer);
+  }
+
+  /**
+   *
+   * @param index {Number}
+   */
+  removeInputReplacer(index) {
+    this.replacer.removeInputReplacer(index);
   }
 }
 

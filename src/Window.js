@@ -44,7 +44,7 @@ class Window extends BrowserWindow {
      */
 
     this.loadFile('src/view/index.html')
-      .catch((error) => { console.log(error); });
+      .catch((error) => { console.error(error); });
   }
 
   init() {
@@ -53,7 +53,9 @@ class Window extends BrowserWindow {
     ipcMain.on('set-file-path-list', this.onReceiveNewFilePathList.bind(this));
     ipcMain.on('add-file-path-list', this.onReceiveFilePathList.bind(this));
     ipcMain.on('set-input-pattern', this.onReceiveInputPatternChanges.bind(this));
-    // ipcMain.on('set-file-extension-filter', this.onReceiveFileExtensionFilterChanges.bind(this));
+    ipcMain.on('add-input-replacer', this.onReceiveInputReplacer.bind(this));
+    ipcMain.on('remove-input-replacer', this.onReceiveRemoveInputReplacer.bind(this));
+    ipcMain.on('update-input-replacer', this.onReceiveUpdatedInputReplacer.bind(this));
     ipcMain.on('rename', this.onReceiveReplaceAction.bind(this));
     ipcMain.on('clear', this.onReceiveClearAction.bind(this));
   }
@@ -93,11 +95,28 @@ class Window extends BrowserWindow {
     this.sendPreviewFilePathList();
   }
 
-  // async onReceiveFileExtensionFilterChanges(event, newFileExtensionFilter){
-  //   console.log('onReceiveFileExtensionFilterChanges', newFileExtensionFilter)
-  // }
+  async onReceiveInputReplacer(event, newInputReplacer) {
+    console.log('onReceiveInputReplacer', newInputReplacer);
+    this.elecRenamer.addInputReplacer(newInputReplacer);
+    await this.elecRenamer.generateFileListPreview();
+    this.sendPreviewFilePathList();
+  }
 
-  async onReceiveReplaceAction(event) {
+  async onReceiveRemoveInputReplacer(event, index) {
+    console.log('onReceiveRemoveInputReplacer', index);
+    this.elecRenamer.removeInputReplacer(index);
+    await this.elecRenamer.generateFileListPreview();
+    this.sendPreviewFilePathList();
+  }
+
+  async onReceiveUpdatedInputReplacer(event, updatedInputReplacer) {
+    console.log('onReceiveUpdatedInputReplacer', updatedInputReplacer);
+    this.elecRenamer.updateInputReplacer(updatedInputReplacer.index, updatedInputReplacer.inputReplacer);
+    await this.elecRenamer.generateFileListPreview();
+    this.sendPreviewFilePathList();
+  }
+
+  async onReceiveReplaceAction() {
     console.log('onReceiveReplaceAction');
     await this.elecRenamer.renameFiles()
       .catch((error) => {
@@ -108,7 +127,7 @@ class Window extends BrowserWindow {
     this.sendFileList();
   }
 
-  async onReceiveClearAction(event) {
+  async onReceiveClearAction() {
     console.log('onReceiveClearAction');
     this.elecRenamer.clear();
 

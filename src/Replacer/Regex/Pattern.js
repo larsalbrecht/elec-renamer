@@ -5,7 +5,10 @@ class Pattern {
    * @returns {String}
    */
   static quote(text) {
-    return text.replace(/[\\\-.*+?^${}()|[\]]/g, '\\$&');
+    if (typeof text === 'string') {
+      return text.replace(/[\\\-.*+?^${}()|[\]]/g, '\\$&');
+    }
+    return '';
   }
 }
 
