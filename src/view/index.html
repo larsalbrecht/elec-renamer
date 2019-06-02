@@ -17,8 +17,6 @@
             <input type="text" id="input-pattern" placeholder="Input Pattern" value=""/>
         </div>
 
-        <!-- Before - Not - Search - After - Not - Replace With - Replace all -->
-
         <div class="container">
             <input-replacer-grid/>
         </div>
@@ -63,6 +61,43 @@
             <button type="button" id="clear-button">Clear</button>
             <button type="button" id="rename-button">Rename</button>
         </div>
+        <footer style="display: none;">
+            <ul>
+                <li>
+                    <button type="button" id="save-preset-button">Save as Preset</button>
+                    <input type="text" id="preset-name-input" placeholder="Preset Name" style="display: none;"/>
+                </li>
+                <li>
+                    <button type="button" id="load-preset-button">Load Preset</button>
+                    <modal-window style="display:none;">
+                        <span>Warning</span>
+                        <p>Current settings will be overwritten! Do you want to continue?</p>
+                        <button type="button" id="load-preset-confirmation-button">Yes</button>
+                        <button type="button" id="load-preset-decline-button">No</button>
+                    </modal-window>
+                </li>
+                <li>
+                    <button type="button" id="delete-preset-button">Delete Preset</button>
+                    <modal-window style="display:none;">
+                        <span>Please choose Preset</span>
+                        <p>Choose the preset that you want to delete</p>
+                        <select>
+                            <option></option>
+                            <option></option>
+                        </select>
+                        <button type="button" id="delete-preset-choose-button">Choose</button>
+                        <button type="button" id="delete-preset-cancel-button">Cancel</button>
+                    </modal-window>
+
+                    <modal-window style="display:none;">
+                        <span>Warning</span>
+                        <p>This can not be undone! Do you want to continue?</p>
+                        <button type="button" id="delete-preset-confirmation-button">Yes</button>
+                        <button type="button" id="delete-preset-decline-button">No</button>
+                    </modal-window>
+                </li>
+            </ul>
+        </footer>
     </section>
 </main>
 
