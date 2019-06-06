@@ -8,10 +8,15 @@ class FileExtensionFilterInput extends Component {
     });
 
     this.element.addEventListener('keyup', () => {
-      RenamerService.setFileExtensionFilter(this.element.value);
+      this.value = this.element.value;
+      RenamerService.setFileExtensionFilter(this.value);
     });
 
-    this.element.value = '';
+    this.value = '';
+  }
+
+  render() {
+    this.element.value = this.value;
   }
 }
 
