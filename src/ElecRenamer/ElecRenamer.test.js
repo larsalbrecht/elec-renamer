@@ -130,6 +130,37 @@ describe('ElecRenamer', () => {
     });
   });
 
+  describe('getReplaceList', () => {
+    it('should return replaceList', () => {
+      const elecRenamer = new ElecRenamer();
+      const replaceList = ['A', 'B', 'C'];
+      elecRenamer.replaceList = replaceList;
+
+      expect(elecRenamer.getReplaceList())
+        .toEqual(replaceList);
+    });
+  });
+
+  describe('generateFilePathList', () => {
+    it('should filter file path list by file extension and set result to generatedFilePathList', () => {
+      const elecRenamer = new ElecRenamer();
+
+      const filePathList = ['/path/to/a.example', '/path/to/b.example', '/path/to/b.non-example'];
+      const expectedFilePathList = ['/path/to/a.example', '/path/to/b.example'];
+      elecRenamer.filePathList = filePathList;
+      elecRenamer.generateFilePathList();
+
+      expect(elecRenamer.generatedFilePathList)
+        .toEqual(filePathList);
+
+      elecRenamer.setFileExtensionFilter('example');
+      elecRenamer.generateFilePathList();
+
+      expect(elecRenamer.generatedFilePathList)
+        .toEqual(expectedFilePathList);
+    });
+  });
+
   describe('generateFileListPreview', () => {
     it('should throw error if input pattern is not type string', async () => {
       const elecRenamer = new ElecRenamer();
