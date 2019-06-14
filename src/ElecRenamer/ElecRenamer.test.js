@@ -91,12 +91,12 @@ describe('ElecRenamer', () => {
     it('should return the current file path list', () => {
       const elecRenamer = new ElecRenamer();
       const filePathList = ['/path/to/a.example', '/path/to/b.example'];
-      elecRenamer.filePathList = filePathList;
+      elecRenamer.setFilePathList(filePathList);
 
       const actual = elecRenamer.getFilePathList();
 
       expect(actual)
-        .toBe(filePathList);
+        .toEqual(filePathList);
     });
   });
 
@@ -204,16 +204,18 @@ describe('ElecRenamer', () => {
       const elecRenamer = new ElecRenamer();
       const replaceList = ['A'];
 
-      elecRenamer.inputPattern = '[t, $list$]';
-      elecRenamer.filePathList = ['path/to/a.example', 'path/to/b.example'];
+      elecRenamer.setInputPattern('[t, $list$]');
+      elecRenamer.setFilePathList(['path/to/a.example', 'path/to/b.example']);
       elecRenamer.setReplaceList(replaceList);
+      elecRenamer.generateFilePathList();
+
       const actual = await elecRenamer.generateFileListPreview();
 
       expect(actual[0])
         .toEqual(replaceList[0]);
 
       expect(actual[1])
-        .toEqual(elecRenamer.filePathList[1]);
+        .toEqual(path.basename(elecRenamer.filePathList[1]));
     });
   });
 
@@ -240,6 +242,8 @@ describe('ElecRenamer', () => {
 
       elecRenamer.filePathList = filePathList;
       elecRenamer.filePathListPreview = filePathListPreview;
+
+      await elecRenamer.generateFilePathList();
 
       fs.rename = jest.fn(() => Promise.resolve());
       const fsRenameSpy = jest.spyOn(fs, 'rename');

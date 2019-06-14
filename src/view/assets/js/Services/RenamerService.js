@@ -35,6 +35,10 @@ class RenamerService {
     ipc.send('add-input-replacer', inputReplacer);
   }
 
+  static setFileForInputList(filePath) {
+    ipc.send('set-file-for-input-list', filePath);
+  }
+
   static rename() {
     ipc.send('rename');
   }

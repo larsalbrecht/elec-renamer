@@ -14,6 +14,7 @@ footer ul {
     width: 100%;
 }
 
+#replace-list-input,
 #file-list,
 #file-preview {
     width: 100%;
@@ -50,6 +51,7 @@ table tr {
     width: 100%;
 }
 
+#list-input-container,
 #file-split-left {
     width: 49%;
     float: left;
@@ -79,7 +81,7 @@ table tr {
     width: 100%;
 }
 
-/* center all*/
+/* center all */
 .input-replacer-grid > div {
     text-align: center;
     align-items: center;
@@ -92,6 +94,13 @@ table tr {
 }
 
 /** specific **/
+
+#list-switch {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(min-content, max-content));
+    grid-gap: 1rem;
+    margin-bottom: .5rem;
+}
 
 table.file-list input {
     width: 100%;

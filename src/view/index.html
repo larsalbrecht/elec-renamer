@@ -26,8 +26,24 @@
             <input type="text" id="file-extension-filter" placeholder="File Extension Filter" value=""/>
         </div>
 
+        <div id="list-switch" data-elements-class="left-container" data-default-element-id="file-split-left"></div>
         <div id="file-split" class="container">
-            <div id="file-split-left">
+            <div id="list-input-container" class="left-container" data-switch-title="Replace List Input">
+                <table class="file-list" id="replace-list-input">
+                    <thead>
+                    <tr>
+                        <th>Replace List Input</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>No items</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="file-split-left" class="left-container" data-switch-title="File List">
                 <table class="file-list" id="file-list">
                     <thead>
                     <tr>

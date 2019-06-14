@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 const { BrowserWindow } = require('electron');
 const { ipcMain } = require('electron');
 const ElecRenamer = require('./ElecRenamer');
@@ -53,6 +54,8 @@ class Window extends BrowserWindow {
     ipcMain.on('set-file-path-list', this.onReceiveNewFilePathList.bind(this));
     ipcMain.on('add-file-path-list', this.onReceiveFilePathList.bind(this));
     ipcMain.on('set-input-pattern', this.onReceiveInputPatternChanges.bind(this));
+    ipcMain.on('set-file-extension-filter', this.onReceiveNewFileExtensionFilter.bind(this));
+    ipcMain.on('set-file-for-input-list', this.onReceiveNewFileForInputList.bind(this));
     ipcMain.on('add-input-replacer', this.onReceiveInputReplacer.bind(this));
     ipcMain.on('remove-input-replacer', this.onReceiveRemoveInputReplacer.bind(this));
     ipcMain.on('update-input-replacer', this.onReceiveUpdatedInputReplacer.bind(this));
@@ -70,6 +73,10 @@ class Window extends BrowserWindow {
 
   sendInputPattern() {
     this.webContents.send('set-input-pattern', this.elecRenamer.getInputPattern());
+  }
+
+  sendReplaceList() {
+    this.webContents.send('set-replace-list', this.elecRenamer.getReplaceList());
   }
 
   async onReceiveNewFilePathList(event, additionalFilePathList) {
@@ -93,6 +100,27 @@ class Window extends BrowserWindow {
     this.elecRenamer.setInputPattern(newInputPattern);
     await this.elecRenamer.generateFileListPreview();
     this.sendPreviewFilePathList();
+  }
+
+  async onReceiveNewFileExtensionFilter(event, newFileExtensionFilter) {
+    console.log('onReceiveNewFileExtensionFilter', newFileExtensionFilter);
+    this.elecRenamer.setFileExtensionFilter(newFileExtensionFilter);
+    await this.elecRenamer.generateFileListPreview();
+    this.sendPreviewFilePathList();
+    this.sendFileList();
+  }
+
+
+  async onReceiveNewFileForInputList(event, fileForInputList) {
+    console.log('onReceiveNewFileForInputList', fileForInputList);
+    const fileContent = await fs.readFile(fileForInputList, { encoding: 'utf8' });
+    const replaceListItems = fileContent.split('\n')
+      .filter(item => item.trim() !== '');
+
+    this.elecRenamer.setReplaceList(replaceListItems);
+    await this.elecRenamer.generateFileListPreview();
+    this.sendPreviewFilePathList();
+    this.sendReplaceList();
   }
 
   async onReceiveInputReplacer(event, newInputReplacer) {

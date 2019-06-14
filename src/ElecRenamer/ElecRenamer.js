@@ -8,21 +8,34 @@ class ElecRenamer {
     this.defaultInputPattern = '[n]';
     this.inputPattern = this.defaultInputPattern;
     this.filePathList = [];
+    this.fileExtensionFilter = '';
+    this.generatedFilePathList = [];
     this.replaceList = [];
     this.filePathListPreview = null;
     this.replacer = new Replacer();
+  }
+
+  generateFilePathList() {
+    this.generatedFilePathList = this.filePathList.filter((filePathListItem) => {
+      if (this.fileExtensionFilter !== '') {
+        if (!filePathListItem.endsWith(`.${this.fileExtensionFilter}`)) {
+          return false;
+        }
+      }
+      return true;
+    });
   }
 
   async generateFileListPreview() {
     if (typeof this.inputPattern !== 'string') {
       throw new Error('Input Pattern must be set to type String!');
     }
-    const filePathListPreviewPromises = this.filePathList.map((filePath, index) => {
+    const filePathListPreviewPromises = this.generatedFilePathList.map((filePath, index) => {
       let tempInputPattern = this.inputPattern;
       if (this.replaceList.length > 0 && this.replaceList.length - 1 >= index) {
         tempInputPattern = tempInputPattern.replace(/\$list\$/g, `"${this.replaceList[index]}"`);
       } else {
-        tempInputPattern = tempInputPattern.replace(/\$list\$/g, `"${filePath}"`);
+        tempInputPattern = tempInputPattern.replace(/\$list\$/g, `"${path.basename(filePath)}"`);
       }
       return this.replacer.getReplacement(tempInputPattern, filePath, index)
         .catch((error) => {
@@ -37,10 +50,38 @@ class ElecRenamer {
 
   /**
    *
+   * @param inputPattern {String}
+   */
+  setInputPattern(inputPattern) {
+    this.inputPattern = inputPattern;
+    this.generateFilePathList();
+  }
+
+  /**
+   *
+   * @param replaceList {Array<String>}
+   */
+  setReplaceList(replaceList) {
+    this.replaceList = replaceList;
+    this.generateFilePathList();
+  }
+
+  /**
+   *
+   * @param newFileExtensionFilter {String}
+   */
+  setFileExtensionFilter(newFileExtensionFilter) {
+    this.fileExtensionFilter = newFileExtensionFilter;
+    this.generateFilePathList();
+  }
+
+  /**
+   *
    * @param filePathList {Array<String>}
    */
   setFilePathList(filePathList) {
     this.filePathList = filePathList;
+    this.generateFilePathList();
   }
 
   /**
@@ -49,6 +90,7 @@ class ElecRenamer {
    */
   addFilePathList(filePathList) {
     this.filePathList = [...this.filePathList, ...filePathList];
+    this.generateFilePathList();
   }
 
   /**
@@ -61,27 +103,22 @@ class ElecRenamer {
 
   /**
    *
-   * @param inputPattern {String}
+   * @returns {String[]}
    */
-  setInputPattern(inputPattern) {
-    this.inputPattern = inputPattern;
+  getReplaceList() {
+    return this.replaceList;
   }
 
-  /**
-   *
-   * @param replaceList {Array<String>}
-   */
-  setReplaceList(replaceList) {
-    this.replaceList = replaceList;
-  }
 
   async renameFiles() {
     if (this.filePathListPreview === null) {
       await this.generateFileListPreview();
     }
-    this.filePathList = await this.filePathList.map((filePath, index) => {
+
+    const newFilePathList = await this.generatedFilePathList.map((filePath, index) => {
       const basePath = path.dirname(filePath);
       const newFullyFilePath = path.join(basePath, this.filePathListPreview[index]);
+
       fs.rename(filePath, newFullyFilePath)
         .catch((error) => {
           throw new Error(`Error while renaming files: ${error}`);
@@ -91,12 +128,16 @@ class ElecRenamer {
 
       return newFullyFilePath;
     });
+
+    this.setFilePathList(newFilePathList);
   }
 
   clear() {
     this.filePathList = [];
     this.inputPattern = this.defaultInputPattern;
     this.filePathListPreview = null;
+    this.generatedFilePathList = [];
+    this.generateFilePathList();
   }
 
   /**
@@ -104,7 +145,7 @@ class ElecRenamer {
    * @returns {Array<String>}
    */
   getFilePathList() {
-    return this.filePathList;
+    return this.generatedFilePathList;
   }
 
   /**
@@ -122,11 +163,13 @@ class ElecRenamer {
   addInputReplacer(newInputReplacer) {
     const inputReplacer = BaseInputReplace.fromData(newInputReplacer);
     this.replacer.addInputReplacer(inputReplacer);
+    this.generateFilePathList();
   }
 
   updateInputReplacer(index, updatedInputReplacer) {
     const inputReplacer = BaseInputReplace.fromData(updatedInputReplacer);
     this.replacer.setInputReplacer(index, inputReplacer);
+    this.generateFilePathList();
   }
 
   /**
@@ -135,6 +178,7 @@ class ElecRenamer {
    */
   removeInputReplacer(index) {
     this.replacer.removeInputReplacer(index);
+    this.generateFilePathList();
   }
 }
 
