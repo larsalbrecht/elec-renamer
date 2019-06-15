@@ -18,6 +18,26 @@ Example Input Files:
 /directory/to/example.file.jpg
 ```
 
+### File Extension Filter
+You can filter the files by file extension. 
+
+Input: `txt`
+
+Output:
+```text
+/directory/to/example.file - 001.txt
+/directory/to/example.file - 02.txt
+/directory/to/example.file - 004.txt
+/directory/to/example.file - 41.txt
+```
+
+Input: `jpg`
+
+Output:
+```text
+/directory/to/example.file.jpg
+```
+
 ### Replace with Tags (TagReplacer)
 Tags can be used inside the upper input. The Tags can be combined.
 
@@ -25,6 +45,7 @@ Tags can be used inside the upper input. The Tags can be combined.
 The Counter-Tag is for generating a number. So you can enumerate a list of files.
 
 Input: `[c]`
+
 Output:
 ```text
 0
@@ -35,6 +56,7 @@ Output:
 ```
 
 Input: `[c, 10]`
+
 Output:
 ```text
 10
@@ -45,6 +67,7 @@ Output:
 ```
 
 Input: `[c, 10, 5]`
+
 Output:
 ```text
 10
@@ -55,6 +78,7 @@ Output:
 ```
 
 Input: `[c, 10, 5, 4]`
+
 Output:
 ```text
 0010
@@ -69,6 +93,7 @@ The Date-Tag is for generating a date. So you can add a date to a list of files.
 https://date-fns.org/v1.30.1/docs/format
 
 Input: `[d]`
+
 Output:
 ```text
 2019-06-15
@@ -79,6 +104,7 @@ Output:
 ```
 
 Input: `[d, D.MM.YYYY]`
+
 Output:
 ```text
 15.06.2019
@@ -92,6 +118,7 @@ Output:
 The FileExtension-Tag is for getting the current file extension.
 
 Input: `[e]`
+
 Output:
 ```text
 .txt
@@ -102,6 +129,7 @@ Output:
 ```
 
 Input: `[e, false]`
+
 Output:
 ```text
 txt
@@ -115,6 +143,7 @@ jpg
 The Folder-Tag is to get a part of the directory to a file.
 
 Input: `[f]`
+
 Output:
 ```text
 to
@@ -125,6 +154,7 @@ to
 ```
 
 Input: `[f, 1]`
+
 Output:
 ```text
 directory
@@ -135,6 +165,7 @@ directory
 ```
 
 Input: `[f, 1, 1]`
+
 Output:
 ```text
 irectory
@@ -145,6 +176,7 @@ irectory
 ```
 
 Input: `[f, 1, 1, 1]`
+
 Output:
 ```text
 i
@@ -158,6 +190,8 @@ i
 The Filename-Tag is to get a part of the name of a file.
 
 Input: `[n]`
+
+Output:
 ```text
 example.file - 001.txt
 example.file - 02.txt
@@ -167,6 +201,8 @@ example.file.jpg
 ```
 
 Input: `[n, 8]`
+
+Output:
 ```text
 file - 001.txt
 file - 02.txt
@@ -176,6 +212,8 @@ file.jpg
 ```
 
 Input: `[n, 8, 2]`
+
+Output:
 ```text
 fi
 fi
@@ -193,6 +231,8 @@ The Text-Size-Tag is a special Tag. You can ignore the end-tag if you want to ch
 * `wl` = word lowercase
 
 Input: `[ts, u]abcdef[/ts]`
+
+Output:
 ```text
 ABCDEF
 ABCDEF
@@ -202,6 +242,8 @@ ABCDEF
 ```
 
 Input: `[ts, l]ABCDEF[/ts]`
+
+Output:
 ```text
 abcdef
 abcdef
@@ -211,6 +253,8 @@ abcdef
 ```
 
 Input: `[ts, wu]this is an example[/ts]`
+
+Output:
 ```text
 This Is An Example
 This Is An Example
@@ -220,6 +264,8 @@ This Is An Example
 ```
 
 Input: `[ts, wl]THIS IS AN EXAMPLE[/ts]`
+
+Output:
 ```text
 tHIS iS aN eXAMPLE
 tHIS iS aN eXAMPLE
@@ -232,6 +278,8 @@ tHIS iS aN eXAMPLE
 The Text-Tag is a simple Tag to add text.
 
 Input: `[t, "EXAMPLE!!"]`
+
+Output:
 ```text
 EXAMPLE!!
 EXAMPLE!!
