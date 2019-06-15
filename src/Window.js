@@ -17,6 +17,8 @@ class Window extends BrowserWindow {
     });
     this.webContents.openDevTools();
 
+    this.removeMenu();
+
     this.once('ready-to-show', () => {
       this.show();
     });

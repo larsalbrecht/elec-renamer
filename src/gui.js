@@ -1,8 +1,10 @@
-const { app, protocol } = require('electron');
+const { app, protocol, Menu } = require('electron');
 const fs = require('fs');
 const pathJoin = require('path').join;
+const Window = require('./Window');
 
 const es6Path = __dirname;
+let mainWindow = null;
 
 protocol.registerSchemesAsPrivileged([{
   scheme: 'es6',
@@ -12,13 +14,10 @@ protocol.registerSchemesAsPrivileged([{
   },
 }]);
 
-const Window = require('./Window');
-
-const mainWindow = null;
+Menu.setApplicationMenu(null);
 
 function createWindow() {
-  // eslint-disable-next-line
-  (new Window());
+  mainWindow = new Window();
 }
 
 function registerProtocol() {
