@@ -61,7 +61,7 @@ describe('Pattern', () => {
       .toBe('\\\\');
 
     expect(Pattern.quote('|This [is] a {simple} Test|'))
-      .toBe('\\|This \\[is\\] a \\{simple\\} Test\\|');
+      .toBe('\\|This\\ \\[is\\]\\ a\\ \\{simple\\}\\ Test\\|');
 
     expect(Pattern.quote('a'))
       .toBe('a');
