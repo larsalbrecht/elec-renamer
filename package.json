@@ -1,7 +1,7 @@
 {
   "name": "elec-renamer",
   "version": "1.0.0",
-  "description": "Electron app that rebuilds the JRenamer",
+  "description": "Electron app that rebuilds the JSRenamer",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
