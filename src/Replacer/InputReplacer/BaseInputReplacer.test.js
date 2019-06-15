@@ -306,4 +306,14 @@ describe('BaseInputReplacer', () => {
         .toBeFalsy();
     });
   });
+
+  describe('search and replace', () => {
+    it('should replace all " " with -', () => {
+      const baseInputReplacer = new BaseInputReplacer(' ', '-', true);
+      const actual = baseInputReplacer.getReplacement('A B C');
+
+      expect(actual)
+        .toEqual('A-B-C');
+    });
+  });
 });
