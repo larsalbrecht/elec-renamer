@@ -14,7 +14,10 @@
   },
   "keywords": [
     "electron",
-    "renamer"
+    "renamer",
+    "javascript",
+    "html",
+    "css"
   ],
   "homepage": "https://www.laal.dev",
   "engines": {
@@ -24,6 +27,9 @@
     "name": "Lars Albrecht",
     "email": "mail@laal.dev",
     "url": "https://www.laal.dev"
+  },
+  "repository": {
+    "url": "https://github.com/larsalbrecht/elec-renamer"
   },
   "license": "MIT",
   "devDependencies": {
