@@ -249,7 +249,7 @@ describe('BaseTagReplacer', () => {
 
       const actual = baseTagReplacer.generatePatternString();
       expect(actual)
-        .toBe('\\[\\W*((?:e|E|example|EXAMPLE)){1}\\W*\\](.+?)(?:(?:\\[\\W*((?:e|E|example|EXAMPLE)){1}\\W*\\])|(?:$))');
+        .toBe('\\[\\W*((?:e|E|example|EXAMPLE)){1}\\W*\\](.*?)(?:(?:\\[\\W*((?:e|E|example|EXAMPLE)){1}\\W*\\])|(?:$))');
     });
   });
 

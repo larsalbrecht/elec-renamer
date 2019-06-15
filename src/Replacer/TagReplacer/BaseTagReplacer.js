@@ -137,7 +137,7 @@ class BaseTagReplacer {
     let patternString = patternStart + patternOptions + patternEnd;
 
     if (this.options != null && this.options.isHasEndTag()) {
-      patternString += `${'(.+?)(?:(?:'}${patternStart}${patternEnd})|(?:$))`;
+      patternString += `${'(.*?)(?:(?:'}${patternStart}${patternEnd})|(?:$))`;
     }
 
     return patternString;
